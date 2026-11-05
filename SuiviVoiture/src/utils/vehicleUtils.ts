@@ -8,26 +8,57 @@ export function decryptAES(ciphertext: string, key: string): string {
   return result;
 }
 
-export function parseCSV(text: string): Vehicle[] {
-  const lines = text.split("\n").map(l => l.trim()).filter(l => l.length > 0);
-  if (lines.length < 2) return [];
-  const sep = lines[0].includes(";") ? ";" : ",";
-  const firstField = lines[0].split(sep)[0].trim().toLowerCase();
-  const isHeader = isNaN(Number(firstField)) && !firstField.match(/^\d/);
-  const dataLines = isHeader ? lines.slice(1) : lines;
-  return dataLines.map(line => {
-    const parts = line.split(sep).map(p => p.trim().replace(/^["\x27]|["\x27]$/g, ""));
-    if (parts.length < 7) return null;
-    return { macaron: parts[0], matricule: parts[1], modele: parts[2], marque: parts[3], couleur: parts[4], bloc: parts[5], telephone: parts[6] };
-  }).filter(Boolean) as Vehicle[];
+const HEADER_NAMES = ["macaron", "matricule", "modele", "modèle", "marque", "couleur", "bloc", "telephone", "téléphone"];
+
+/** Splits one CSV line, honouring "quoted, fields" and doubled quotes. */
+function splitLine(line: string, sep: string): string[] {
+  const out: string[] = [];
+  let cur = "";
+  let quoted = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (quoted) {
+      if (c === '"' && line[i + 1] === '"') { cur += '"'; i++; }
+      else if (c === '"') quoted = false;
+      else cur += c;
+    } else if (c === '"') quoted = true;
+    else if (c === sep) { out.push(cur); cur = ""; }
+    else cur += c;
+  }
+  out.push(cur);
+  return out.map(p => p.trim().replace(/^'|'$/g, ""));
 }
 
+/** Parses the 7-column vehicle CSV (header optional, `,` or `;`). Rows with fewer than 7 fields are counted in `skipped`. */
+export function parseCSVWithStats(text: string): { vehicles: Vehicle[]; skipped: number } {
+  const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
+  if (lines.length === 0) return { vehicles: [], skipped: 0 };
+  const sep = lines[0].includes(";") ? ";" : ",";
+  const first = splitLine(lines[0], sep);
+  const isHeader =
+    HEADER_NAMES.includes((first[0] || "").toLowerCase()) ||
+    HEADER_NAMES.includes((first[1] || "").toLowerCase()) ||
+    (first.length >= 7 && !/\d/.test(first[6]));
+  const dataLines = isHeader ? lines.slice(1) : lines;
+  const vehicles: Vehicle[] = [];
+  let skipped = 0;
+  for (const line of dataLines) {
+    const p = splitLine(line, sep);
+    if (p.length < 7) { skipped++; continue; }
+    vehicles.push({ macaron: p[0], matricule: p[1], modele: p[2], marque: p[3], couleur: p[4], bloc: p[5], telephone: p[6] });
+  }
+  return { vehicles, skipped };
+}
+
+export function parseCSV(text: string): Vehicle[] {
+  return parseCSVWithStats(text).vehicles;
+}
+
+const normalizeId = (s: string) => s.toUpperCase().replace(/\s/g, "");
+
 export function searchVehicle(vehicles: Vehicle[], query: string): Vehicle | undefined {
-  const q = query.toUpperCase().replace(/\s/g, "");
-  return vehicles.find(v =>
-    v.macaron.toUpperCase().replace(/\s/g,"") === q ||
-    v.matricule.toUpperCase().replace(/\s/g,"") === q
-  );
+  const q = normalizeId(query);
+  return vehicles.find(v => normalizeId(v.macaron) === q || normalizeId(v.matricule) === q);
 }
 
 export function getCarColor(colorName: string): string {
@@ -45,11 +76,11 @@ export function getCarColor(colorName: string): string {
     "beige":"#d7ccc8","bordeaux":"#880e4f","grenat":"#880e4f",
     "violet":"#6a1b9a","purple":"#6a1b9a",
     "rose":"#ad1457","pink":"#ad1457",
-    "\u0623\u0628\u064a\u0636":"#dcdcdc","\u0623\u0633\u0648\u062f":"#263238","\u0623\u062d\u0645\u0631":"#ff0000",
-    "\u0623\u0632\u0631\u0642":"#1565c0","\u0623\u062e\u0636\u0631":"#2e7d32","\u0631\u0645\u0627\u062f\u064a":"#969696",
-    "\u0623\u0635\u0641\u0631":"#ffff00","\u0628\u0631\u062a\u0642\u0627\u0644\u064a":"#e65100","\u0641\u0636\u064a":"#b0bec5",
-    "\u0628\u0646\u064a":"#5d4037","\u0628\u064a\u062c":"#d7ccc8","\u0628\u0646\u0641\u0633\u062c\u064a":"#6a1b9a",
-    "\u0648\u0631\u062f\u064a":"#ad1457","\u0639\u0642\u064a\u0642":"#880e4f",
+    "أبيض":"#dcdcdc","أسود":"#263238","أحمر":"#ff0000",
+    "أزرق":"#1565c0","أخضر":"#2e7d32","رمادي":"#969696",
+    "أصفر":"#ffff00","برتقالي":"#e65100","فضي":"#b0bec5",
+    "بني":"#5d4037","بيج":"#d7ccc8","بنفسجي":"#6a1b9a",
+    "وردي":"#ad1457","عقيق":"#880e4f",
   };
   return map[(colorName||"").toLowerCase().trim()] || "#78909c";
 }

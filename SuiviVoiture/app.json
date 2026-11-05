@@ -2,21 +2,32 @@
   "expo": {
     "name": "Suivi Voitures",
     "slug": "suivivoiture",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FFFFFF"
+    },
     "android": {
+      "package": "com.cite.suivivoitures",
+      "versionCode": 2,
+      "allowBackup": false,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png",
-        "backgroundColor": "#1a237e"
-      },
-      "package": "com.cite.suivivoitures"
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
     },
     "scheme": "suivivoiture",
+    "plugins": [
+      "expo-secure-store"
+    ],
+    "owner": "ne_fekairi",
     "extra": {
       "eas": {
-        "projectId": "8d2bed63-88b9-459a-bdcd-218fb47782da"
+        "projectId": "37c646e8-beb5-48bc-ab8d-52b2215b877e"
       }
     }
   }
