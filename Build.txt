@@ -1,0 +1,172 @@
+PS D:\Projet\SuiviVoiture> npm install -g eas-cli
+npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+npm warn deprecated lodash.get@4.4.2: This package is deprecated. Use the optional chaining (?.) operator instead.
+npm warn deprecated rimraf@2.4.5: Rimraf versions prior to v4 are no longer supported
+npm warn deprecated glob@6.0.4: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated @xmldom/xmldom@0.7.13: this version has critical issues, please update to the latest version
+npm warn deprecated uuid@7.0.3: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+npm warn deprecated uuid@8.3.2: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+npm warn deprecated uuid@8.3.2: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated uuid@9.0.1: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+npm warn deprecated tar@7.5.7: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+
+changed 516 packages in 3m
+
+65 packages are looking for funding
+  run `npm fund` for details
+npm warn allow-scripts 1 package has install scripts not yet covered by allowScripts:
+npm warn allow-scripts   dtrace-provider@0.8.8 (install: node-gyp rebuild || node suppress-error.js)
+npm warn allow-scripts
+npm warn allow-scripts Run `npm install -g --allow-scripts=dtrace-provider` to allow these scripts once, or `npm config set allow-scripts=dtrace-provider --location=user` to allow them for all global installs.
+PS D:\Projet\SuiviVoiture> eas login
+You are already logged in as hamidboukabou.
+√ Do you want to continue? ... yes
+Waiting for browser login...
+If your browser doesn't automatically open, visit this link to log in: https://expo.dev/login?client_id=eas-cli&redirect_uri=http://localhost:58442/auth/callback&response_type=code&code_challenge=kJlZVObkUmPLsxdATC4EDWf1eDmLpSnEwXBplTAI3zg&code_challenge_method=S256&state=fdYtp8S5nImnnm5OysON5NhoI4huQ6-_zdRoSUlvGis&confirm_account=true
+Logged in
+PS D:\Projet\SuiviVoiture> $encoding = New-Object System.Text.UTF8Encoding $false
+PS D:\Projet\SuiviVoiture> $content = '{
+>>   "expo": {
+>>     "name": "Suivi Voitures",
+>>     "slug": "suivivoiture",
+>>     "version": "1.0.0",
+>>     "orientation": "portrait",
+>>     "icon": "./assets/icon.png",
+>>     "userInterfaceStyle": "light",
+>>     "android": {
+>>       "adaptiveIcon": {
+>>         "foregroundImage": "./assets/icon.png",
+>>         "backgroundColor": "#1a237e"
+>>       },
+>>       "package": "com.cite.suivivoitures"
+>>     },
+>>     "scheme": "suivivoiture"
+>>   }
+>> }'
+PS D:\Projet\SuiviVoiture> [System.IO.File]::WriteAllText("D:\Projet\SuiviVoiture\app.json", $content, $encoding)
+PS D:\Projet\SuiviVoiture> $encoding = New-Object System.Text.UTF8Encoding $false
+PS D:\Projet\SuiviVoiture> $content = '{
+>>   "cli": {
+>>     "version": ">= 10.0.0"
+>>   },
+>>   "build": {
+>>     "preview": {
+>>       "distribution": "internal",
+>>       "android": {
+>>         "buildType": "apk"
+>>       },
+>>       "env": {
+>>         "NPM_CONFIG_LEGACY_PEER_DEPS": "true"
+>>       }
+>>     },
+>>     "production": {
+>>       "android": {
+>>         "buildType": "aab"
+>>       },
+>>       "env": {
+>>         "NPM_CONFIG_LEGACY_PEER_DEPS": "true"
+>>       }
+>>     }
+>>   }
+>> }'
+PS D:\Projet\SuiviVoiture> [System.IO.File]::WriteAllText("D:\Projet\SuiviVoiture\eas.json", $content, $encoding)
+PS D:\Projet\SuiviVoiture> eas build:configure
+eas.json is not valid.
+- "build.production.android.buildType" must be one of [apk, app-bundle]
+    Error: build:configure command failed.
+PS D:\Projet\SuiviVoiture> Get-Content .\eas.json
+{
+  "cli": {
+    "version": ">= 10.0.0"
+  },
+  "build": {
+    "preview": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "NPM_CONFIG_LEGACY_PEER_DEPS": "true"
+      }
+    },
+    "production": {
+      "android": {
+        "buildType": "aab"
+      },
+      "env": {
+        "NPM_CONFIG_LEGACY_PEER_DEPS": "true"
+      }
+    }
+  }
+}
+PS D:\Projet\SuiviVoiture> $encoding = New-Object System.Text.UTF8Encoding $false
+PS D:\Projet\SuiviVoiture> $content = '{
+>>   "cli": {
+>>     "version": ">= 10.0.0"
+>>   },
+>>   "build": {
+>>     "preview": {
+>>       "distribution": "internal",
+>>       "android": {
+>>         "buildType": "apk"
+>>       },
+>>       "env": {
+>>         "NPM_CONFIG_LEGACY_PEER_DEPS": "true"
+>>       }
+>>     },
+>>     "production": {
+>>       "android": {
+>>         "buildType": "apk"
+>>       },
+>>       "env": {
+>>         "NPM_CONFIG_LEGACY_PEER_DEPS": "true"
+>>       }
+>>     }
+>>   }
+>> }'
+PS D:\Projet\SuiviVoiture> [System.IO.File]::WriteAllText("D:\Projet\SuiviVoiture\eas.json", $content, $encoding)
+PS D:\Projet\SuiviVoiture> eas build:configure
+EAS project not configured.
+√ Existing EAS project found for @hamidboukabou/suivivoiture (id = 8d2bed63-88b9-459a-bdcd-218fb47782da). Configure this project? ... yes
+√ Linked local project to EAS project 8d2bed63-88b9-459a-bdcd-218fb47782da
+💡 The following process will configure your iOS and/or Android project to be compatible with EAS Build. These changes only apply to your local project files and you can safely revert them at any time.
+
+√ Which platforms would you like to configure for EAS Build? » Android
+
+🎉 Your project is ready to build.
+
+- Run eas build when you are ready to create your first build.
+- Once the build is completed, run eas submit to upload the app to app stores.
+- Learn more about other capabilities of EAS Build: https://docs.expo.dev/build/introduction
+PS D:\Projet\SuiviVoiture> eas build --platform android --profile preview
+The field "cli.appVersionSource" is not set, but it will be required in the future. Learn more: https://docs.expo.dev/build-reference/app-versions/
+Resolved "preview" environment for the build. Learn more: https://docs.expo.dev/eas/environment-variables/#setting-the-environment-for-your-builds
+No environment variables with visibility "Plain text" and "Sensitive" found for the "preview" environment on EAS.
+Environment variables loaded from the "preview" build profile "env" configuration: NPM_CONFIG_LEGACY_PEER_DEPS.
+
+
+
+The field "cli.appVersionSource" is not set, but it will be required in the future. Learn more: https://docs.expo.dev/build-reference/app-versions/
+√ Using remote Android credentials (Expo server)
+√ Generate a new Android Keystore? ... yes
+Detected that you do not have keytool installed locally.
+√ Generating keystore in the cloud...
+√ Created keystore
+
+Compressing project files and uploading to EAS Build. Learn more: https://expo.fyi/eas-build-archive
+√ Compressed project files 4s (432 KB)
+√ Uploaded to EAS 1s
+⌛️ Computing the project fingerprint is taking longer than expected...
+⏩ To skip this step, set the environment variable: EAS_SKIP_AUTO_FINGERPRINT=1
+√ Computed project fingerprint
+
+See logs: https://expo.dev/accounts/hamidboukabou/projects/suivivoiture/builds/db2770e8-972f-4f0a-a48c-5a2b9c931bdf
+
+Waiting for build to complete. You can press Ctrl+C to exit.
+× Build failed
+
+🤖 Android build failed:
+Gradle build failed with unknown error. See logs for the "Run gradlew" (https://expo.dev/accounts/hamidboukabou/projects/suivivoiture/builds/db2770e8-972f-4f0a-a48c-5a2b9c931bdf#run-gradlew) phase for more information.

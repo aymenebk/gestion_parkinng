@@ -1,0 +1,14 @@
+Blanc/Blanche
+Noir/Noire
+Rouge
+Bleu/Bleue
+Vert/Verte
+Gris/Grise
+Jaune
+Orange
+Argent/Argenté
+Marron
+Beige
+Bordeaux
+Violet
+Rose

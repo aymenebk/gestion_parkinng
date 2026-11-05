@@ -1,0 +1,16 @@
+macaron,matricule,modele,marque,couleur,bloc,telephone
+M-0001,12345-001-16,Clio IV,Renault,Rouge,A,0555 12 34 56
+M-0002,67890-002-23,Polo 6,Volkswagen,Blanc,B,0666 23 45 67
+M-0003,11111-003-20,308 SW,Peugeot,Bleu,C,0770 34 56 78
+M-0004,22222-004-19,Duster,Dacia,Gris,A,0555 12 34 56
+M-0005,33333-005-21,Symbol,Renault,Noir,D,0661 45 67 89
+M-0006,44444-006-22,Logan,Dacia,Vert,B,0666 23 45 67
+M-0007,55555-007-18,Megane III,Renault,Argent,E,0550 56 78 90
+M-0008,66666-008-24,Tiggo 4,Chery,Beige,C,0770 34 56 78
+M-0009,77777-009-20,508,Peugeot,Bordeaux,F,0557 67 89 01
+M-0010,88888-010-22,Yaris,Toyota,Jaune,A,0555 12 34 56
+M-0011,99999-011-19,Corsa,Opel,Orange,G,0662 78 90 12
+M-0012,10101-012-23,Rio,Kia,Marron,D,0661 45 67 89
+M-0013,20202-013-21,C3,Citroën,Rose,H,0770 89 01 23
+M-0014,30303-014-22,Swift,Suzuki,Violet,B,0666 23 45 67
+M-0015,40404-015-20,Sandero,Dacia,Blanc,E,0550 56 78 90

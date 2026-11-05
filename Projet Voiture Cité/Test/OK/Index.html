@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1a237e">
+<title>Contrôle Accès des voitures | مراقبة دخول السيارات</title>
+<link rel="manifest" href="manifest.json">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  :root {
+    --navy: #1a237e;
+    --navy-light: #283593;
+    --gold: #ffd600;
+    --gold-dark: #f9a825;
+    --success: #1b5e20;
+    --success-bg: #e8f5e9;
+    --danger: #b71c1c;
+    --danger-bg: #ffebee;
+    --surface: #ffffff;
+    --surface-2: #f5f5f5;
+    --text: #1a1a2e;
+    --text-muted: #546e7a;
+    --radius: 14px;
+    --shadow: 0 4px 20px rgba(26,35,126,0.13);
+  }
+
+  body {
+    font-family: 'Segoe UI', 'Helvetica Neue', Arial, 'Noto Sans Arabic', sans-serif;
+    background: linear-gradient(160deg, #1a237e 0%, #283593 40%, #1565c0 100%);
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    color: var(--text);
+  }
+
+  /* ── HEADER ── */
+  .header {
+    width: 100%;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-titles { flex: 1; }
+
+  .header-title-fr {
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.3px;
+    line-height: 1.2;
+  }
+
+  .header-title-ar {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.75);
+    direction: rtl;
+    line-height: 1.3;
+  }
+
+  .lang-toggle {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff;
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+
+  .lang-toggle:active { background: rgba(255,255,255,0.3); }
+
+  .import-btn {
+    background: var(--gold);
+    border: none;
+    border-radius: 10px;
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--navy);
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .import-btn:active { background: var(--gold-dark); transform: scale(0.96); }
+
+  .import-btn svg { width: 16px; height: 16px; }
+
+  /* ── MAIN CONTENT ── */
+  .main {
+    flex: 1;
+    width: 100%;
+    max-width: 480px;
+    padding: 20px 16px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  /* ── STATUS BADGE ── */
+  .status-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 12px;
+    color: #fff;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #ff5252;
+    flex-shrink: 0;
+    transition: background 0.3s;
+  }
+
+  .status-dot.loaded { background: #69f0ae; }
+
+  /* ── SEARCH SECTION ── */
+  .search-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .search-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+    text-align: center;
+  }
+
+  .search-label-ar {
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    direction: rtl;
+  }
+
+  .search-box {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .search-input {
+    flex: 1;
+    background: rgba(255,255,255,0.95);
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    letter-spacing: 1px;
+  }
+
+  .search-input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(255,214,0,0.25);
+  }
+
+  .search-input::placeholder { color: #aaa; font-size: 14px; letter-spacing: 0; }
+
+  .voice-btn {
+    width: 50px; height: 50px;
+    border-radius: 12px;
+    border: none;
+    background: rgba(255,255,255,0.15);
+    border: 1.5px solid rgba(255,255,255,0.3);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    flex-shrink: 0;
+  }
+
+  .voice-btn:active { background: rgba(255,255,255,0.3); transform: scale(0.94); }
+  .voice-btn.listening { background: #e53935; border-color: #e53935; animation: pulse-mic 1s infinite; }
+
+  @keyframes pulse-mic {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(229,57,53,0.5); }
+    50% { box-shadow: 0 0 0 8px rgba(229,57,53,0); }
+  }
+
+  .search-btn {
+    background: var(--gold);
+    border: none;
+    border-radius: 12px;
+    width: 50px; height: 50px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    flex-shrink: 0;
+  }
+
+  .search-btn:active { background: var(--gold-dark); transform: scale(0.94); }
+
+  /* ── RESULTS ── */
+  #result-area {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  /* FOUND card */
+  .vehicle-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    width: 100%;
+    overflow: hidden;
+    border: 2px solid #c8e6c9;
+    animation: slide-up 0.3s ease;
+  }
+
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-header {
+    background: linear-gradient(135deg, var(--success) 0%, #2e7d32 100%);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-header-text { color: #fff; font-size: 13px; font-weight: 700; }
+  .card-header-ar { color: rgba(255,255,255,0.8); font-size: 11px; direction: rtl; }
+
+  /* Car SVG area */
+  .car-area {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    background: var(--surface-2);
+  }
+
+  .car-wrapper {
+    position: relative;
+    width: 280px;
+    height: 120px;
+  }
+
+  .car-wrapper svg { width: 100%; height: 100%; }
+
+  .car-plate-overlay {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .car-macaron-overlay {
+    position: absolute;
+    top: 25%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .car-plate-overlay {
+    position: absolute;
+    top: 69%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .plate-number {
+    font-size: 11px;
+    font-weight: 800;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+    letter-spacing: 1.5px;
+    display: block;
+    line-height: 1.2;
+  }
+
+  .plate-label {
+    font-size: 8px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Info grid */
+  .info-grid {
+    padding: 14px 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .info-item.full-width { grid-column: 1 / -1; }
+
+  .info-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+  }
+
+  .info-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .divider {
+    height: 1px;
+    background: #e0e0e0;
+    margin: 0 16px;
+  }
+
+  /* Contact block */
+  .contact-block {
+    padding: 12px 16px;
+    background: #e8f5e9;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .contact-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--success);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .contact-info { flex: 1; }
+
+  .contact-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--success);
+  }
+
+  .contact-phone {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .call-btn {
+    background: var(--success);
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 5px;
+    transition: background 0.15s;
+    text-decoration: none;
+  }
+
+  .call-btn:active { background: #1b5e20; }
+
+  /* UNKNOWN state */
+  .unknown-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    width: 100%;
+    padding: 32px 20px;
+    text-align: center;
+    border: 2px solid #ffcdd2;
+    animation: slide-up 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .unknown-icon {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: var(--danger-bg);
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .unknown-title {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--danger);
+    letter-spacing: 1px;
+    line-height: 1.1;
+  }
+
+  .unknown-title-ar {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--danger);
+    direction: rtl;
+  }
+
+  .unknown-sub {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    color: rgba(255,255,255,0.7);
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .empty-state-icon { opacity: 0.5; }
+  .empty-state-text { font-size: 14px; font-weight: 500; }
+  .empty-state-text-ar { font-size: 13px; opacity: 0.75; direction: rtl; }
+
+  /* Modal overlay */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .modal-overlay.active { display: flex; }
+
+  .modal {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 24px;
+    width: 100%;
+    max-width: 360px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .modal-title { font-size: 17px; font-weight: 700; color: var(--navy); }
+  .modal-title-ar { font-size: 14px; color: var(--text-muted); direction: rtl; }
+
+  .modal-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+  .key-input {
+    border: 1.5px solid #ddd;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 15px;
+    font-family: monospace;
+    outline: none;
+    width: 100%;
+    transition: border-color 0.2s;
+  }
+
+  .key-input:focus { border-color: var(--navy); }
+
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .modal-cancel {
+    flex: 1;
+    background: #f5f5f5;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+
+  .modal-confirm {
+    flex: 2;
+    background: var(--navy);
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .modal-confirm:active { background: var(--navy-light); }
+
+  .file-drop-area {
+    border: 2px dashed #c5cae9;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .file-drop-area:hover { border-color: var(--navy); background: #f3f4fd; }
+  .file-drop-area.has-file { border-color: #43a047; background: #f1f8e9; color: #2e7d32; }
+
+  .error-msg {
+    font-size: 12px;
+    color: var(--danger);
+    background: var(--danger-bg);
+    border-radius: 8px;
+    padding: 8px 12px;
+    display: none;
+  }
+
+  .error-msg.visible { display: block; }
+
+  /* color swatch */
+  .color-swatch-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-muted);
+    justify-content: center;
+  }
+
+  .color-swatch {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 2px solid rgba(0,0,0,0.15);
+    flex-shrink: 0;
+  }
+
+  input[type="file"] { display: none; }
+
+  .toast {
+    position: fixed;
+    bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: #263238;
+    color: #fff;
+    border-radius: 24px;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    z-index: 300;
+    transition: transform 0.3s ease;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  .badge-found {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #e8f5e9;
+    color: var(--success);
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    border: 1px solid #a5d6a7;
+  }
+
+  .color-name-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    border: 1px solid rgba(0,0,0,0.12);
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-titles">
+    <div class="header-title-fr" id="h-fr">Contrôle d'Accès des voitures</div>
+    <div class="header-title-ar" id="h-ar"></div>
+  </div>
+  <button class="lang-toggle" onclick="toggleLang()" id="lang-btn">عربي</button>
+  <button class="import-btn" onclick="openImport()" id="import-btn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+      <polyline points="17 8 12 3 7 8"/>
+      <line x1="12" y1="3" x2="12" y2="15"/>
+    </svg>
+    <span id="import-label">Importer</span>
+  </button>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- Status badge -->
+  <div class="status-badge">
+    <div class="status-dot" id="status-dot"></div>
+    <span id="status-text">Aucune liste de voiture</span>
+  </div>
+
+  <!-- Search section -->
+  <div class="search-section">
+    <div class="search-label" id="search-label">Matricule ou Numéro de Macaron</div>
+    <div class="search-label-ar" id="search-label-ar"></div>
+    <div class="search-box">
+      <input
+        class="search-input"
+        id="search-input"
+        type="text"
+        placeholder="Exemple: 12345-678-09 ou 12345"
+        autocomplete="off"
+        autocorrect="off"
+        spellcheck="false"
+        inputmode="text"
+        onkeydown="if(event.key==='Enter') doSearch()"
+      />
+      <button class="search-btn" onclick="doSearch()" title="Rechercher">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a237e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Result area -->
+  <div id="result-area">
+    <div class="empty-state">
+      <img src="Silhouette.png" alt="Silhouette Voiture" width="200" height="200" style="opacity: 0.6; object-fit: contain;">
+       <div class="empty-state-text" id="empty-text"></div>
+      <div class="empty-state-text-ar" id="empty-text-ar"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- IMPORT MODAL -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div>
+      <div class="modal-title" id="modal-title">Importer la liste des véhicules</div>
+      <div class="modal-title-ar"></div>
+    </div>
+    <div class="modal-desc" id="modal-desc">
+      Sélectionnez le fichier qui contient la liste.
+    </div>
+
+    <div class="file-drop-area" id="file-drop" onclick="document.getElementById('file-input').click()">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin: 0 auto 8px; display: block; opacity: 0.5">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+      </svg>
+      <span id="file-drop-text">Appuyez pour sélectionner le fichier</span>
+    </div>
+    <input type="file" id="file-input" accept=".csv,.enc,.aes,.txt" onchange="onFileSelected(event)">
+
+    <div>
+      <label style="font-size: 12px; font-weight: 700; color: #546e7a; display: block; margin-bottom: 6px;" id="key-label">Mot de passe</label>
+      <input class="key-input" id="key-input" type="password" placeholder="Entrez le mot de passe…" />
+    </div>
+
+    <div class="error-msg" id="error-msg"></div>
+
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeImport()" id="cancel-btn">Annuler</button>
+      <button class="modal-confirm" onclick="processImport()" id="confirm-btn">Charger la liste</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── STATE ───────────────────────────────────────────
+let vehicles = [];
+let selectedFile = null;
+let isArabic = false;
+let recognition = null;
+
+// Translations
+const T = {
+  fr: {
+    HeaderLabel: 'Contrôle Accès des voitures',
+    importLabel: 'Importer',
+    statusNone: 'Aucune liste de voiture',
+    statusLoaded: n => `${n} véhicule(s) ✓`,
+    searchLabel: 'Matricule ou Numéro de Macaron',
+    emptyText: '',
+    modalTitle: 'Importer la liste des véhicules',
+    modalDesc: 'Sélectionnez le fichier qui contient la liste.',
+    modalPSW: 'Entrez le mot de passe…',
+    fileDropText: 'Appuyez pour sélectionner le fichier',
+    keyLabel: 'Mot de passe',
+    cancelBtn: 'Annuler',
+    confirmBtn: 'Charger la liste',
+    successToast: n => `✓ ${n} véhicule(s) chargé(s) avec succès`,
+    errorNoFile: 'Veuillez sélectionner un fichier.',
+    errorNoKey: 'Veuillez entrer la clé de déchiffrement.',
+    errorDecrypt: 'Échec du déchiffrement. Vérifiez la clé.',
+    errorFormat: 'Format CSV invalide. Vérifiez la structure du fichier.',
+    unknownTitle: 'Véhicule INCONNU !',
+    unknownSub: 'Ce matricule/macaron ne figure pas dans la liste.',
+    headerFr: 'Contrôle d\'Accès Cité',
+    langBtn: 'عربي',
+    vehicleFound: 'Véhicule autorisé',
+    macaron: 'Macaron',
+    matricule: 'Matricule',
+    marque: 'Marque',
+    modele: 'Modèle',
+    couleur: 'Couleur',
+    bloc: 'Appartement',
+    representant: 'Représentant du Bloc',
+    appeler: 'Appeler',
+    voiceHint: 'Écoute…',
+    noVoice: 'Reconnaissance vocale non supportée',
+    noList: 'Chargez d\'abord une liste de véhicules',
+  },
+  ar: {
+    HeaderLabel: 'مراقبة دخول السيارات',
+    importLabel: 'استيراد',
+    statusNone: 'لا توجد قائمة للسيارات',
+    statusLoaded: n => `${n} مركبة ✓`,
+    searchLabel: 'رقم التسجيل أو رقم الملصق',
+    emptyText:  '',
+    modalTitle: 'استيراد قائمة المركبات',
+    modalDesc: 'اختر الملف الذي يحتوي على القائمة.',
+    modalPSW: 'أدخل كلمة السر...',
+    fileDropText: 'اضغط لإختيار ملف',
+    keyLabel: 'كلمة السر',
+    cancelBtn: 'إلغاء',
+    confirmBtn: 'تحميل القائمة',
+    successToast: n => `✓ تم تحميل ${n} مركبة بنجاح`,
+    errorNoFile: 'يرجى اختيار ملف.',
+    errorNoKey: 'يرجى إدخال مفتاح فك التشفير.',
+    errorDecrypt: 'فشل فك التشفير. تحقق من المفتاح.',
+    errorFormat: 'صيغة CSV غير صحيحة.',
+    unknownTitle: 'مركبة غير معروفة !',
+    unknownSub: 'رقم التسجيل/الملصق غير موجود في القائمة.',
+    headerFr: 'مراقبة دخول السكنات',
+    langBtn: 'Français',
+    vehicleFound: 'مركبة مرخصة',
+    macaron: 'الملصق',
+    matricule: 'رقم التسجيل',
+    marque: 'الصنف',
+    modele: 'الطراز',
+    couleur: 'اللون',
+    bloc: 'المسكن',
+    representant: 'ممثل العمارة',
+    appeler: 'اتصال',
+    voiceHint: 'جارٍ الاستماع…',
+    noVoice: 'التعرف الصوتي غير مدعوم',
+    noList: 'يرجى تحميل قائمة المركبات أولاً',
+  }
+};
+
+function t(key) { return (isArabic ? T.ar : T.fr)[key]; }
+
+// ─── LANGUAGE ────────────────────────────────────────
+function toggleLang() {
+  isArabic = !isArabic;
+  document.documentElement.lang = isArabic ? 'ar' : 'fr';
+  document.documentElement.dir = isArabic ? 'rtl' : 'ltr';
+  applyLang();
+}
+
+function applyLang() {
+  const L = isArabic ? T.ar : T.fr;
+  document.getElementById('h-fr').textContent = L.HeaderLabel;
+  document.getElementById('import-label').textContent = L.importLabel;
+  document.getElementById('lang-btn').textContent = L.langBtn;
+  document.getElementById('search-label').textContent = L.searchLabel;
+  document.getElementById('search-label-ar').style.display = isArabic ? 'none' : 'block';
+  document.getElementById('modal-title').textContent = L.modalTitle;
+  document.getElementById('modal-desc').textContent = L.modalDesc;
+  document.getElementById('key-input').placeholder = L.modalPSW;
+  document.getElementById('file-drop-text').textContent = L.fileDropText;
+  document.getElementById('key-label').textContent = L.keyLabel;
+  document.getElementById('cancel-btn').textContent = L.cancelBtn;
+  document.getElementById('confirm-btn').textContent = L.confirmBtn;
+  document.getElementById('empty-text').textContent = L.emptyText;
+  document.getElementById('search-input').placeholder = isArabic ? 'مثال: 12345-678-09 أو 12345' : 'Exemple: 12345-678-09 ou 12345';
+  // update status
+  const dot = document.getElementById('status-dot');
+  document.getElementById('status-text').textContent = dot.classList.contains('loaded')
+    ? L.statusLoaded(vehicles.length)
+    : L.statusNone;
+}
+
+// ─── IMPORT MODAL ────────────────────────────────────
+function openImport() {
+  document.getElementById('modal-overlay').classList.add('active');
+  document.getElementById('error-msg').classList.remove('visible');
+  document.getElementById('key-input').value = '';
+  document.getElementById('file-drop').classList.remove('has-file');
+  document.getElementById('file-drop-text').textContent = t('fileDropText');
+  selectedFile = null;
+}
+
+function closeImport() {
+  document.getElementById('modal-overlay').classList.remove('active');
+}
+
+function onFileSelected(e) {
+  selectedFile = e.target.files[0];
+  if (selectedFile) {
+    document.getElementById('file-drop').classList.add('has-file');
+    document.getElementById('file-drop-text').textContent = '📄 ' + selectedFile.name;
+  }
+}
+
+async function processImport() {
+  const key = document.getElementById('key-input').value.trim();
+  const errEl = document.getElementById('error-msg');
+
+  if (!selectedFile) { showError(t('errorNoFile')); return; }
+  if (!key) { showError(t('errorNoKey')); return; }
+
+  errEl.classList.remove('visible');
+
+  try {
+    const raw = await readFile(selectedFile);
+    let csvText = '';
+
+    // Try AES decryption
+    try {
+      const decrypted = CryptoJS.AES.decrypt(raw.trim(), key);
+      csvText = decrypted.toString(CryptoJS.enc.Utf8);
+      if (!csvText || csvText.length < 5) throw new Error('empty');
+    } catch(e) {
+      // If decryption fails, try treating as plain CSV (for testing)
+      if (raw.includes(',') || raw.includes(';')) {
+        csvText = raw;
+      } else {
+        showError(t('errorDecrypt'));
+        return;
+      }
+    }
+
+    const parsed = parseCSV(csvText);
+    if (!parsed || parsed.length === 0) { showError(t('errorFormat')); return; }
+
+    vehicles = parsed;
+    closeImport();
+    document.getElementById('status-dot').classList.add('loaded');
+    document.getElementById('status-text').textContent = t('statusLoaded')(vehicles.length);
+    showToast(t('successToast')(vehicles.length));
+    // Clear results
+    showEmpty();
+
+  } catch(e) {
+    showError(t('errorDecrypt') + ' (' + e.message + ')');
+  }
+}
+
+function showError(msg) {
+  const el = document.getElementById('error-msg');
+  el.textContent = msg;
+  el.classList.add('visible');
+}
+
+function readFile(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = e => resolve(e.target.result);
+    reader.onerror = reject;
+    reader.readAsText(file, 'UTF-8');
+  });
+}
+
+function parseCSV(text) {
+  const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+  if (lines.length < 2) return [];
+
+  const sep = lines[0].includes(';') ? ';' : ',';
+  // Skip header if present (check if first field looks like a header)
+  const firstField = lines[0].split(sep)[0].trim().toLowerCase();
+  const isHeader = isNaN(firstField) && !firstField.match(/^\d/);
+  const dataLines = isHeader ? lines.slice(1) : lines;
+
+  return dataLines.map(line => {
+    const parts = line.split(sep).map(p => p.trim().replace(/^["']|["']$/g, ''));
+    if (parts.length < 7) return null;
+    return {
+      macaron:    parts[0] || '',
+      matricule:  parts[1] || '',
+      modele:     parts[2] || '',
+      marque:     parts[3] || '',
+      couleur:    parts[4] || '',
+      bloc:       parts[5] || '',
+      telephone:  parts[6] || '',
+    };
+  }).filter(Boolean);
+}
+
+// ─── SEARCH ──────────────────────────────────────────
+function doSearch() {
+  const query = document.getElementById('search-input').value.trim().toUpperCase();
+  if (!query) return;
+
+  if (vehicles.length === 0) {
+    showToast(t('noList'));
+    return;
+  }
+
+  const found = vehicles.find(v =>
+    v.macaron.toUpperCase() === query ||
+    v.matricule.toUpperCase() === query ||
+    v.macaron.toUpperCase().replace(/\s/g,'') === query.replace(/\s/g,'') ||
+    v.matricule.toUpperCase().replace(/\s/g,'') === query.replace(/\s/g,'')
+  );
+
+  if (found) {
+    showFound(found);
+  } else {
+    showUnknown(query);
+  }
+}
+
+// ─── VOICE SEARCH ────────────────────────────────────
+function startVoice() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) { showToast(t('noVoice')); return; }
+
+  if (recognition) { recognition.stop(); return; }
+
+  recognition = new SpeechRecognition();
+  recognition.lang = isArabic ? 'ar-DZ' : 'fr-FR';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+
+  const btn = document.getElementById('voice-btn');
+  btn.classList.add('listening');
+  showToast(t('voiceHint'));
+
+  recognition.onresult = e => {
+    const text = e.results[0][0].transcript.toUpperCase().replace(/\s/g, '');
+    document.getElementById('search-input').value = text;
+    doSearch();
+  };
+
+  recognition.onend = () => {
+    btn.classList.remove('listening');
+    recognition = null;
+  };
+
+  recognition.onerror = () => {
+    btn.classList.remove('listening');
+    recognition = null;
+  };
+
+  recognition.start();
+}
+
+// ─── DISPLAY RESULTS ─────────────────────────────────
+function showEmpty() {
+  const L = isArabic ? T.ar : T.fr;
+  document.getElementById('result-area').innerHTML = `
+    <div class="empty-state">
+
+      <div class="empty-state-text">${L.emptyText}</div>
+    </div>`;
+}
+
+function getCarColor(colorName) {
+  const map = {
+    'blanc': '#dcdcdc', 'blanche': '#dcdcdc', 'white': '#dcdcdc',
+    'noir': '#263238', 'noire': '#263238', 'black': '#263238',
+    'rouge': '#ff0000', 'red': '#ff0000',
+    'bleu': '#1565c0', 'bleue': '#1565c0', 'blue': '#1565c0',
+    'vert': '#2e7d32', 'verte': '#2e7d32', 'green': '#2e7d32',
+    'gris': '#969696', 'grise': '#969696', 'grey': '#969696', 'gray': '#969696',
+    'jaune': '#ffff00', 'yellow': '#ffff00',
+    'orange': '#e65100',
+    'argent': '#b0bec5', 'silver': '#b0bec5', 'argenté': '#b0bec5',
+    'marron': '#5d4037', 'brown': '#5d4037',
+    'beige': '#d7ccc8',
+    'violet': '#6a1b9a', 'purple': '#6a1b9a',
+    'rose': '#ad1457', 'pink': '#ad1457',
+    'bordeaux': '#880e4f', 'grenat': '#880e4f',
+    // Arabic
+    'أبيض': '#dcdcdc', 'أسود': '#263238', 'أحمر': '#ff0000',
+    'أزرق': '#1565c0', 'أخضر': '#2e7d32', 'رمادي': '#969696',
+    'أصفر': '#ffff00', 'برتقالي': '#e65100', 'فضي': '#b0bec5',
+    'بني': '#5d4037', 'بيج': '#d7ccc8', 'بنفسجي': '#6a1b9a',
+    'وردي': '#ad1457', 'عقيق': '#880e4f',
+  };
+  const key = (colorName || '').toLowerCase().trim();
+  return map[key] || '#78909c';
+}
+
+function getTextColorForBg(hexColor) {
+  const r = parseInt(hexColor.slice(1,3), 16);
+  const g = parseInt(hexColor.slice(3,5), 16);
+  const b = parseInt(hexColor.slice(5,7), 16);
+  const luminance = (0.299*r + 0.587*g + 0.114*b) / 255;
+  return luminance > 0.5 ? '#1a1a2e' : '#ffffff';
+}
+
+function buildCarSVG(colorHex) {
+  const body  = colorHex;
+  const dark  = shadeColor(colorHex, -28);
+  const vdark = shadeColor(colorHex, -50);
+  const glass = shadeColor(colorHex,  40);
+  const lite  = shadeColor(colorHex,  18);
+
+  return `<svg viewBox="0 0 380 290" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="gl${colorHex.slice(1)}" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%"   stop-color="${glass}" stop-opacity="0.85"/>
+        <stop offset="100%" stop-color="${shadeColor(colorHex,-6)}" stop-opacity="0.45"/>
+      </linearGradient>
+    </defs>
+
+    <!-- Ombre sol -->
+    <ellipse cx="190" cy="260" rx="148" ry="6" fill="rgba(0,0,0,0.14)"/>
+
+    <!-- TOIT : rectangle plat, coins arrondis, sans bosse -->
+    <rect x="97" y="34" width="185" height="24" rx="14" fill="${body}"/>
+    
+    <!-- REFLET TOIT -->
+    <ellipse cx="152" cy="42" rx="38" ry="6" fill="white" opacity="0.22"/>
+
+    <!-- MONTANTS : transition toit → carrosserie -->
+    <path d="M 104 36 Q 76 62 60 90 L 94 90 Q 108 68 124 58 Z" fill="${dark}"/>
+    <path d="M 276 36 Q 304 62 320 90 L 286 90 Q 272 68 256 58 Z" fill="${dark}"/>
+
+        <!-- PNEU GAUCHE -->
+    <rect x="44"  y="200" width="36" height="58" rx="8" fill="#111"/>
+    <rect x="48"  y="204" width="28" height="50" rx="6" fill="#2a2a2a"/>
+    <rect x="50"  y="206" width="24" height="46" rx="5" fill="none" stroke="#484848" stroke-width="2"/>
+
+    <!-- PNEU DROIT -->
+    <rect x="300" y="200" width="36" height="58" rx="8" fill="#111"/>
+    <rect x="304" y="204" width="28" height="50" rx="6" fill="#2a2a2a"/>
+    <rect x="306" y="206" width="24" height="46" rx="5" fill="none" stroke="#484848" stroke-width="2"/>
+    
+    <!-- CARROSSERIE -->
+    <path d="
+      M  60  90
+      Q  40  96  32 116
+      L  30 140
+      Q  30 228  46 234
+      L  72 238  
+      L 308 238
+      Q 350 238 348 140
+      L 348 116
+      Q 340  96 320  90
+      Z
+    " fill="${body}"/>
+
+    <!-- Reflet carrosserie haut -->
+    <path d="M 60 90 Q 40 96 32 116 L 34 158 Q 76 124 190 118 Q 304 124 346 158 L 348 116 Q 340 96 320 90 Z"
+      fill="url(#sh${colorHex.slice(1)})"/>
+
+    <!-- PARE-BRISE -->
+    <path d="
+      M 124  58
+      Q 112  70 104  90
+      L 276  90
+      Q 268  70 256  58
+      Q 226  50 190  49
+      Q 154  50 124  58 Z
+    " fill="url(#gl${colorHex.slice(1)})"/>
+    
+    <!-- Reflet gauche pare-brise -->
+    <path d="M 128 60 Q 118 74 112 88 L 152 88 Q 150 72 158 62 Z"
+      fill="white" opacity="0.18"/>
+
+    <!-- RÉTROVISEUR GAUCHE -->
+    <path d="M 77 63 Q 36 61 30 69 Q 26 79 36 85 Q 46 91 60 89 L 67 77 Z"
+      fill="${vdark}"/>
+  
+      fill="${vdark}"/>    
+    <!-- RÉTROVISEUR DROIT -->
+    <path d="M 303 63 Q 344 61 350 69 Q 354 79 344 85 Q 334 91 320 89 L 313 77 Z"
+      fill="${vdark}"/>
+
+    <!-- Ligne de caractère -->
+    <path d="M 34 174 Q 112 164 190 162 Q 268 164 346 174"
+      fill="none" stroke="${lite}" stroke-width="2.5" opacity="0.48" stroke-linecap="round"/>
+
+    <!-- BAS DE PARE-CHOCS arrondi -->
+    <path d="
+      M  42 210  Q  42 224  60 228
+      L 315 228  Q 333 224 333 212
+      Q 333 204 311 200
+      Q 258 194 190 194
+      Q 122 194  54 200
+      Q  42 204  42 212 Z
+    " fill="${dark}"/>
+
+    <!-- OPTIQUE DROIT -->
+    <path d="M 315 122 Q 286 121 280 129 Q 276 139 286 145 Q 296 151 310 149 Q 347 151 340 124 Z"
+      fill="#FFFFFF"/>
+
+    <!-- OPTIQUE GAUCHE -->
+    <path d="M 65 122 Q 94 121 100 129 Q 104 139 94 145 Q 84 151 70 149 Q 33 151 40 124"
+      fill="#FFFFFF"/>
+  </svg>`;
+}
+
+function shadeColor(color, percent) {
+  const num = parseInt(color.replace('#',''), 16);
+  const R = Math.min(255, Math.max(0, (num >> 16) + Math.round(255 * percent / 100)));
+  const G = Math.min(255, Math.max(0, ((num >> 8) & 0xff) + Math.round(255 * percent / 100)));
+  const B = Math.min(255, Math.max(0, (num & 0xff) + Math.round(255 * percent / 100)));
+  return '#' + [R, G, B].map(v => v.toString(16).padStart(2,'0')).join('');
+}
+
+function showFound(v) {
+  const L = isArabic ? T.ar : T.fr;
+  const colorHex = getCarColor(v.couleur);
+  const textC = getTextColorForBg(colorHex);
+  const carSVG = buildCarSVG(colorHex);
+  const dir = isArabic ? 'rtl' : 'ltr';
+
+  document.getElementById('result-area').innerHTML = `
+    <div class="vehicle-card">
+      <div class="card-header">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        <div>
+          <div class="card-header-text">${L.vehicleFound}</div>
+        </div>
+
+      </div>
+
+      <div class="car-area">
+        <div class="car-wrapper">
+          ${carSVG}
+          <div class="car-macaron-overlay">
+            <span class="plate-number" style="color:${textC};">${v.macaron}</span>
+          </div>
+          <div class="car-plate-overlay">
+            <span class="plate-label" style="color:${textC};">${v.matricule}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-grid" dir="${dir}">
+        <div class="info-item">
+          <div class="info-label">${L.macaron}</div>
+          <div class="info-value" style="font-family: monospace; letter-spacing: 1px;">${v.macaron}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">${L.matricule}</div>
+          <div class="info-value" style="font-family: monospace;">${v.matricule}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">${L.marque}</div>
+          <div class="info-value">${v.marque}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">${L.modele}</div>
+          <div class="info-value">${v.modele}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">${L.bloc}</div>
+          <div class="info-value">🏢 Bloc ${v.bloc}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">${L.couleur}</div>
+          <span class="color-name-badge" style="background:${colorHex}; color:${textC}; text-align: center;">${v.couleur}</span>
+        </div>        
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="contact-block">
+        <div class="contact-avatar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+        <div class="contact-info" dir="${dir}">
+          <div class="contact-name">${L.representant} ${v.bloc}</div>
+        </div>
+        <a class="call-btn" href="tel:${v.telephone}">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.64a2 2 0 012-2.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.91 14.09a16 16 0 006 6l.41-.41a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+          </svg>
+          ${L.appeler}
+        </a>
+      </div>
+    </div>
+  `;
+}
+
+function showUnknown(query) {
+  const L = isArabic ? T.ar : T.fr;
+  document.getElementById('result-area').innerHTML = `
+    <div class="unknown-card">
+      <div class="unknown-icon">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#c62828" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="15" y1="9" x2="9" y2="15"/>
+          <line x1="9" y1="9" x2="15" y2="15"/>
+        </svg>
+      </div>
+      <div class="unknown-title">${L.unknownTitle}</div>
+      <div class="unknown-title-ar" style="display:${isArabic ? 'block':'none'}">مركبة غير معروفة !</div>
+      <div class="unknown-sub">${L.unknownSub}</div>
+      <div style="font-size: 13px; color: #90a4ae; background: #f5f5f5; border-radius: 8px; padding: 8px 16px; font-family: monospace; letter-spacing: 1px;">
+        « ${query} »
+      </div>
+    </div>
+  `;
+}
+
+// ─── TOAST ───────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ─── GENERATE SAMPLE CSV (for testing) ───────────────
+function generateSampleCSV() {
+  const header = 'macaron,matricule,modele,marque,couleur,bloc,telephone\n';
+  const rows = [
+    'M-0001,12345-001-16,Clio,Renault,Rouge,A,0555123456',
+    'M-0002,67890-002-23,Polo,Volkswagen,Blanc,B,0666234567',
+    'M-0003,11111-003-20,Peugeot 308,Peugeot,Bleu,C,0770345678',
+    'M-0004,22222-004-19,Duster,Dacia,Gris,A,0555123456',
+    'M-0005,33333-005-21,Symbol,Renault,Noir,D,0661456789',
+    'M-0006,44444-006-22,Logan,Dacia,Vert,B,0666234567',
+    'M-0007,55555-007-18,Megane,Renault,Argent,E,0550567890',
+    'M-0008,66666-008-24,Tiggo,Chery,Beige,C,0770345678',
+  ];
+  return header + rows.join('\n');
+}
+
+// Close modal on overlay click
+document.getElementById('modal-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeImport();
+});
+
+// Real-time search on Enter
+document.getElementById('search-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') doSearch();
+});
+
+// Info: expose sample CSV generation for testing
+console.log('=== CONTRÔLE ACCÈS CITÉ ===');
+console.log('Pour tester sans fichier chiffré, un fichier CSV exemple a été généré.');
+console.log('Générer un fichier chiffré avec :');
+console.log('const enc = CryptoJS.AES.encrypt(csvText, "votre-clé").toString();');
+
+// Expose for debugging
+window._generateSampleCSV = generateSampleCSV;
+window._CryptoJS = CryptoJS;
+</script>
+</body>
+</html>

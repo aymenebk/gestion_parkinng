@@ -1,0 +1,15 @@
+- Copier les listes dans fichier XSL
+- Ajouter les colonnes 'bloc' et 'telephone' remplis avec le numéro du bloc où habite le propriétaire du véhicule et le numéro de téléphone du représentant du Bloc
+- Copier dans l'ordre dans une nouvelle feuille dans l'ordre les colonnes : macaron|matricule|modele|marque|couleur|bloc|telephone
+- Enregistrer sous le nom liste en format CSV
+- Ouvrir le fichier CVS, puis remplacer les ';' par ','
+- Ouvrer le script pyton 'encrypt_csv.py' dans Visual Studio Code 
+- Cliquer sur 'View' puis 'Terminal'
+- Copier-coller la commande : python encrypt_csv.py --input liste.csv --key "123456" --output liste.enc
+- Copier le fichier liste.enc dans le drive citehouri
+
+Important : 
+ - Matricule en format : xxxxx-xxx-xx
+ - Telephone en format : 0xxx xx xx xx
+ - Pas de caractère spécial dans marque et modèle
+ - La couleur laissée vide est représentée en noir 

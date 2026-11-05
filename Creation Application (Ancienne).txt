@@ -1,0 +1,346 @@
+Étape A : Créer les utilitaires (déchiffrement AES, parsing CSV)
+Étape B : Créer la silhouette voiture (SVG)
+Étape C : Créer l'interface complète (header, recherche, résultats)
+Étape D : Compiler l'APK final avec EAS Build
+
+Étape A :
+Creation fichier TypeScript : D:\Projet\acces-cite\src\types.ts
+------------
+@"
+export interface Vehicle {
+  macaron: string;
+  matricule: string;
+  modele: string;
+  marque: string;
+  couleur: string;
+  bloc: string;
+  telephone: string;
+}
+export type Lang = 'fr' | 'ar';
+"@ | Set-Content -Path "D:\Projet\acces-cite\src\types.ts" -Encoding UTF8
+------------------------
+
+Creer le fichier Utilitaires véhicules : D:\Projet\acces-cite\src\utils\vehicleUtils.ts
+----------------------------------
+@"
+import CryptoJS from 'crypto-js';
+import { Vehicle } from './types';
+
+export function decryptAES(ciphertext: string, passphrase: string): string {
+  const decrypted = CryptoJS.AES.decrypt(ciphertext.trim(), passphrase);
+  const result = decrypted.toString(CryptoJS.enc.Utf8);
+  if (!result || result.length < 3) throw new Error('Cle incorrecte');
+  return result;
+}
+
+export function parseCSV(text: string): Vehicle[] {
+  const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+  if (lines.length < 2) throw new Error('CSV vide');
+  const sep = lines[0].includes(';') ? ';' : ',';
+  const firstField = lines[0].split(sep)[0].trim().toLowerCase();
+  const hasHeader = isNaN(Number(firstField)) && !/^\d/.test(firstField);
+  const dataLines = hasHeader ? lines.slice(1) : lines;
+  const vehicles: Vehicle[] = [];
+  for (const line of dataLines) {
+    if (!line.trim()) continue;
+    const parts = line.split(sep).map(p => p.trim().replace(/^[\"']|[\"']$/g, ''));
+    if (parts.length < 7) continue;
+    vehicles.push({
+      macaron:   parts[0],
+      matricule: parts[1],
+      modele:    parts[2],
+      marque:    parts[3],
+      couleur:   parts[4],
+      bloc:      parts[5],
+      telephone: parts[6],
+    });
+  }
+  if (vehicles.length === 0) throw new Error('Aucun vehicule trouve');
+  return vehicles;
+}
+
+export function searchVehicle(vehicles: Vehicle[], query: string): Vehicle | undefined {
+  const q = query.toUpperCase().replace(/\s+/g, '');
+  return vehicles.find(v =>
+    v.macaron.toUpperCase().replace(/\s+/g, '') === q ||
+    v.matricule.toUpperCase().replace(/\s+/g, '') === q
+  );
+}
+
+export function getCarColorHex(colorName: string): string {
+  const map: Record<string, string> = {
+    'blanc': '#ECEFF1', 'blanche': '#ECEFF1', 'white': '#ECEFF1',
+    'noir': '#263238', 'noire': '#263238', 'black': '#263238',
+    'rouge': '#C62828', 'red': '#C62828',
+    'bleu': '#1565C0', 'bleue': '#1565C0', 'blue': '#1565C0',
+    'vert': '#2E7D32', 'verte': '#2E7D32', 'green': '#2E7D32',
+    'gris': '#607D8B', 'grise': '#607D8B', 'grey': '#607D8B', 'gray': '#607D8B',
+    'jaune': '#F9A825', 'yellow': '#F9A825',
+    'orange': '#E65100',
+    'argent': '#B0BEC5', 'argente': '#B0BEC5', 'silver': '#B0BEC5',
+    'marron': '#5D4037', 'brown': '#5D4037',
+    'beige': '#D7CCC8',
+    'bordeaux': '#880E4F',
+    'violet': '#6A1B9A', 'violette': '#6A1B9A', 'purple': '#6A1B9A',
+    'rose': '#AD1457', 'pink': '#AD1457',
+    'blanc casse': '#F5F5DC', 'creme': '#FFFDE7',
+    'أبيض': '#ECEFF1', 'أسود': '#263238', 'أحمر': '#C62828',
+    'أزرق': '#1565C0', 'أخضر': '#2E7D32', 'رمادي': '#607D8B',
+    'أصفر': '#F9A825', 'برتقالي': '#E65100', 'فضي': '#B0BEC5',
+    'بني': '#5D4037', 'بيج': '#D7CCC8', 'بنفسجي': '#6A1B9A',
+    'وردي': '#AD1457',
+  };
+  return map[colorName.toLowerCase().trim()] ?? '#78909C';
+}
+
+export function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  const clamp = (v: number) => Math.min(255, Math.max(0, v));
+  const amt = Math.round(255 * percent / 100);
+  const R = clamp((num >> 16) + amt);
+  const G = clamp(((num >> 8) & 0xff) + amt);
+  const B = clamp((num & 0xff) + amt);
+  return '#' + [R, G, B].map(v => v.toString(16).padStart(2, '0')).join('');
+}
+
+export function getContrastColor(hex: string): string {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return (0.299 * r + 0.587 * g + 0.114 * b) / 255 > 0.55 ? '#1A1A2E' : '#FFFFFF';
+}
+"@ | Set-Content -Path "D:\Projet\acces-cite\src\utils\vehicleUtils.ts" -Encoding UTF8
+---------------------------
+Creer fichier Traductions FR/AR : D:\Projet\acces-cite\src\i18n.ts
+---------------------------
+@"
+import { Lang } from './types';
+
+const T = {
+  fr: {
+    appName: "Controle d'Acces Cite",
+    appNameAr: "مراقبة دخول السكنات",
+    importBtn: "Importer",
+    statusNone: "Aucune liste chargee",
+    statusLoaded: (n: number) => n + " vehicule(s) charge(s)",
+    searchPlaceholder: "Matricule ou N de Macaron...",
+    searchLabel: "Rechercher un vehicule",
+    importTitle: "Importer la liste",
+    importDesc: "Selectionnez un fichier CSV chiffre (AES).",
+    selectFile: "Selectionner le fichier CSV",
+    keyPlaceholder: "Cle de dechiffrement AES...",
+    keyLabel: "Cle secrete",
+    decryptLoad: "Dechiffrer & Charger",
+    cancel: "Annuler",
+    errorNoFile: "Veuillez selectionner un fichier.",
+    errorNoKey: "Veuillez entrer la cle.",
+    errorDecrypt: "Echec du dechiffrement. Verifiez la cle.",
+    errorFormat: "Format CSV invalide.",
+    successLoaded: (n: number) => n + " vehicule(s) charge(s) avec succes",
+    vehicleFound: "Vehicule autorise",
+    vehicleUnknown: "Vehicule INCONNU !",
+    vehicleUnknownSub: "Ce matricule/macaron ne figure pas dans la liste.",
+    fieldMacaron: "N Macaron",
+    fieldMatricule: "Matricule",
+    fieldMarque: "Marque",
+    fieldModele: "Modele",
+    fieldCouleur: "Couleur",
+    fieldBloc: "Bloc",
+    fieldRepresentant: "Representant du Bloc",
+    callBtn: "Appeler",
+    langToggle: "عربي",
+    emptySubtitle: "Importez une liste puis saisissez un matricule ou macaron",
+    noListLoaded: "Chargez d'abord une liste de vehicules",
+    csvFormat: "Format: macaron,matricule,modele,marque,couleur,bloc,telephone",
+  },
+  ar: {
+    appName: "مراقبة دخول السكنات",
+    appNameAr: "Controle d'Acces Cite",
+    importBtn: "استيراد",
+    statusNone: "لا توجد قائمة محملة",
+    statusLoaded: (n: number) => n + " مركبة محملة",
+    searchPlaceholder: "رقم التسجيل أو رقم الملصق...",
+    searchLabel: "البحث عن مركبة",
+    importTitle: "استيراد القائمة",
+    importDesc: "اختر ملف CSV مشفر (AES).",
+    selectFile: "اختر ملف CSV المشفر",
+    keyPlaceholder: "مفتاح فك التشفير...",
+    keyLabel: "المفتاح السري",
+    decryptLoad: "فك التشفير و تحميل",
+    cancel: "إلغاء",
+    errorNoFile: "يرجى اختيار ملف.",
+    errorNoKey: "يرجى إدخال المفتاح.",
+    errorDecrypt: "فشل فك التشفير.",
+    errorFormat: "صيغة CSV غير صحيحة.",
+    successLoaded: (n: number) => "تم تحميل " + n + " مركبة",
+    vehicleFound: "مركبة مرخصة",
+    vehicleUnknown: "مركبة غير معروفة !",
+    vehicleUnknownSub: "رقم التسجيل غير موجود في القائمة.",
+    fieldMacaron: "رقم الملصق",
+    fieldMatricule: "رقم التسجيل",
+    fieldMarque: "الماركة",
+    fieldModele: "الطراز",
+    fieldCouleur: "اللون",
+    fieldBloc: "البلوك",
+    fieldRepresentant: "ممثل البلوك",
+    callBtn: "اتصال",
+    langToggle: "Français",
+    emptySubtitle: "استورد قائمة ثم أدخل رقم التسجيل أو الملصق",
+    noListLoaded: "يرجى تحميل قائمة المركبات أولاً",
+    csvFormat: "الصيغة: macaron,matricule,modele,marque,couleur,bloc,telephone",
+  }
+};
+
+export function useT(lang: Lang) {
+  return T[lang];
+}
+"@ | Set-Content -Path "D:\Projet\acces-cite\src\i18n.ts" -Encoding UTF8
+---------------------------
+
+Étape B 
+Creer le fichier Composant CarSilhouette : D:\Projet\acces-cite\src\components\CarSilhouette.tsx
+---------------------------
+@"
+import React from 'react';
+import Svg, { Path, Rect, Defs, LinearGradient, Stop } from 'react-native-svg';
+import { View, Text, StyleSheet } from 'react-native';
+import { getCarColorHex, shadeColor, getContrastColor } from '../utils/vehicleUtils';
+
+interface Props {
+  couleur: string;
+  macaron: string;
+  matricule: string;
+}
+
+export default function CarSilhouette({ couleur, macaron, matricule }: Props) {
+  const body  = getCarColorHex(couleur);
+  const dark  = shadeColor(body, -28);
+  const glass = shadeColor(body, 40);
+  const lite  = shadeColor(body, 18);
+  const textC = getContrastColor(body);
+  const id    = body.replace('#', '');
+
+  return (
+    <View style={styles.wrapper}>
+      <Svg width={260} height={220} viewBox="0 0 380 290">
+        <Defs>
+          <LinearGradient id={'gl' + id} x1="0" y1="0" x2="0" y2="1">
+            <Stop offset="0"   stopColor={glass} stopOpacity="0.85"/>
+            <Stop offset="1"   stopColor={body}  stopOpacity="0.45"/>
+          </LinearGradient>
+          <LinearGradient id={'sh' + id} x1="0" y1="0" x2="0" y2="1">
+            <Stop offset="0" stopColor="#ffffff" stopOpacity="0.26"/>
+            <Stop offset="1" stopColor="#000000" stopOpacity="0"/>
+          </LinearGradient>
+        </Defs>
+
+        {/* Ombre sol */}
+        <Path
+          d="M 42 284 Q 190 292 338 284 Q 190 278 42 284 Z"
+          fill="rgba(0,0,0,0.14)"
+        />
+
+        {/* Toit plat arrondi */}
+        <Rect x="104" y="12" width="172" height="54" rx="14" fill={body}/>
+        {/* Reflet toit */}
+        <Rect x="112" y="18" width="80" height="20" rx="8" fill="white" opacity="0.22"/>
+
+        {/* Montant A gauche */}
+        <Path d="M 104 36 Q 76 62 60 90 L 94 90 Q 108 68 124 58 Z" fill={dark}/>
+        {/* Montant A droit */}
+        <Path d="M 276 36 Q 304 62 320 90 L 286 90 Q 272 68 256 58 Z" fill={dark}/>
+
+        {/* Carrosserie principale */}
+        <Path d={
+          "M 60 90 Q 40 96 32 116 L 28 210 Q 28 228 46 234 " +
+          "L 72 238 L 72 252 Q 72 264 90 268 L 290 268 " +
+          "Q 308 264 308 252 L 308 238 L 334 234 " +
+          "Q 352 228 352 210 L 348 116 Q 340 96 320 90 Z"
+        } fill={body}/>
+
+        {/* Reflet carrosserie */}
+        <Path d={
+          "M 60 90 Q 40 96 32 116 L 34 158 " +
+          "Q 76 124 190 118 Q 304 124 346 158 L 348 116 " +
+          "Q 340 96 320 90 Z"
+        } fill={'url(#sh' + id + ')'}/>
+
+        {/* Pare-brise */}
+        <Path d={
+          "M 124 58 Q 112 70 104 90 L 276 90 " +
+          "Q 268 70 256 58 Q 226 50 190 49 Q 154 50 124 58 Z"
+        } fill={'url(#gl' + id + ')'}/>
+
+        {/* Retro gauche */}
+        <Path d="M 58 118 Q 36 116 30 124 Q 26 134 36 140 Q 46 146 60 144 L 64 132 Z"
+          fill={dark}/>
+        {/* Retro droit */}
+        <Path d="M 322 118 Q 344 116 350 124 Q 354 134 344 140 Q 334 146 320 144 L 316 132 Z"
+          fill={dark}/>
+
+        {/* Ligne de caractere */}
+        <Path d="M 34 174 Q 112 164 190 162 Q 268 164 346 174"
+          fill="none" stroke={lite} strokeWidth="2.5" strokeLinecap="round" opacity="0.5"/>
+
+        {/* Bas de pare-chocs arrondi */}
+        <Path d={
+          "M 72 252 Q 72 264 90 268 L 290 268 Q 308 264 308 252 " +
+          "Q 308 244 296 240 Q 258 234 190 234 " +
+          "Q 122 234 84 240 Q 72 244 72 252 Z"
+        } fill={dark}/>
+
+        {/* Pneu gauche vertical */}
+        <Rect x="44" y="240" width="36" height="48" rx="8" fill="#111111"/>
+        <Rect x="48" y="244" width="28" height="40" rx="6" fill="#2a2a2a"/>
+
+        {/* Pneu droit vertical */}
+        <Rect x="300" y="240" width="36" height="48" rx="8" fill="#111111"/>
+        <Rect x="304" y="244" width="28" height="40" rx="6" fill="#2a2a2a"/>
+
+      </Svg>
+
+      {/* Texte macaron + matricule */}
+      <View style={styles.overlay}>
+        <Text style={[styles.macaron, { color: textC }]}>{macaron}</Text>
+        <Text style={[styles.matricule, { color: textC }]}>{matricule}</Text>
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  wrapper: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+  },
+  overlay: {
+    position: 'absolute',
+    top: '58%',
+    alignItems: 'center',
+  },
+  macaron: {
+    fontSize: 13,
+    fontWeight: '800',
+    letterSpacing: 1.5,
+    textShadowColor: 'rgba(0,0,0,0.5)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 3,
+  },
+  matricule: {
+    fontSize: 10,
+    fontWeight: '600',
+    letterSpacing: 0.8,
+    opacity: 0.9,
+    textShadowColor: 'rgba(0,0,0,0.4)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
+  },
+});
+"@ | Set-Content -Path "D:\Projet\acces-cite\src\components\CarSilhouette.tsx" -Encoding UTF8
+---------------------------
+
+Test rapide : Afficher la silhouette dans index.tsx
+ en cas d'erreur, Installer le module manquant
+cd D:\Projet\acces-cite
+npm install buffer --legacy-peer-deps

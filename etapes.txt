@@ -1,0 +1,37 @@
+npm install -g npm@11.18.0
+npm istall -g expo-cli
+npm config set allow-scripts=dtrace-provider --location=user
+npx create-expo-app acces-cite --template blank-typescript
+select Expo SDK version : latest (SDK 57)
+cd .\acces-cite\
+npm install expo-router expo-status-bar
+npm audit fix --force
+
+npm install expo-document-picker
+en cas d'erreurs :
+
+1. Supprimer ce qui a été mal installé :
+cd C:\Projets\acces-cite
+Remove-Item -Recurse -Force node_modules
+Remove-Item package-lock.json
+
+2. Réinstaller la base proprement :
+
+npm install
+
+Modifier .npmrc
+cd D:\Projet\acces-cite
+
+# Créer ou modifier le fichier .npmrc du projet
+Add-Content -Path ".npmrc" -Value "allow-scripts=true"
+
+# Vérifier que c'est bien écrit
+Get-Content .npmrc
+
+
+npm install expo-file-system
+npm install expo-haptics
+
+nmp install crypto-js
+nmp install @
+

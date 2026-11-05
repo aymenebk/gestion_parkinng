@@ -1,0 +1,90 @@
+App lancée
+├── Connexion disponible
+│   └── Premiere fois 
+│	│
+│	├── OUI → Ouvre modal import normal
+│       	│	  ├── Sélection fichier .enc + saisie MDP
+│       	│	  ├── Déchiffrement 
+│       	│	      ├── OK
+│	│	      │   ├── Copie fichier .enc en local
+│       	│   	      │   ├── Sauvegarde chemin + MDP dans AsyncStorage
+│       	│   	      │   └── Liste chargée ✓
+│       	│	      └── Échec → Message erreur
+│	└── Non → Chargement automatique silencieux
+│            	  ├── Succès → Liste chargée ✓ (sans aucune fenêtre)
+│            	  └── Échec (fichier supprimé ou MDP changé)
+│                     └── Ouvre modal import normal
+└── Hors-ligne
+    ├── Fichier local disponible → Chargement automatique silencieux
+    │        	  		   ├── Succès → Liste chargée ✓ (sans aucune fenêtre)
+    │       			   └── Échec (fichier supprimé ou MDP changé) → Message "Erreur de connexion"
+    └── Fichier local non disponible → Message "Erreur de connexion"
+
+
+ le fichier local n'est qu'une copie de secours pour le mode hors-ligne, et en mode connecté l'app utilise toujours le fichier original à son emplacement d'origine.
+Déroulement final corrigé
+SituationSource du fichierMDPConnexion + 1ère foisSélectionné par l'utilisateurSaisi par l'utilisateurConnexion + déjà sauvegardéChemin original (mémorisé)MDP mémoriséHors-ligne + fichier localCopie locale (sauvegardée)MDP mémoriséHors-ligne + pas de copie—Message "Erreur de connexion"
+
+Ce qui est mémorisé dans AsyncStorage
+┌─────────────────────────────────────────────┐
+│ sv_file_path  → chemin original du .enc     │
+│ sv_file_name  → nom du fichier              │
+│ sv_password   → mot de passe (chiffré)      │
+└─────────────────────────────────────────────┘
+Copie locale
+FileSystem.documentDirectory + "suivi_local.enc"
+→ Utilisée UNIQUEMENT en mode hors-ligne
+→ Mise à jour à chaque import réussi en ligne
+
+Ce déroulement est clair, logique et cohérent. Je génère le code maintenant ?Oui s'il vous plaitJe génère les fichiers modifiés. Commençons par installer les dépendances.
+Étape 1 — Installer les nouvelles dépendances
+powershellcd D:\Projet\SuiviVoiture
+npx expo install @react-native-async-storage/async-storage
+npx expo install expo-network
+Étape 2 — Nouveau i18n.tsExécuté 4 commandes, lu un fichierExécuté 4 commandes, lu un fichierLe ZIP contient les 2 fichiers modifiés. Voici le récapitulatif complet de tous les changements.
+
+Récapitulatif des changements
+package.json — 2 nouvelles dépendances à installer
+powershellnpx expo install @react-native-async-storage/async-storage
+npx expo install expo-network
+
+i18n.ts — 4 nouvelles clés ajoutées (FR + AR)
+CléFrançaisArabeerrorNoConnection"Erreur de connexion. Vérifiez votre réseau.""خطأ في الاتصال..."errorNoLocalFile"Hors-ligne et aucune liste locale disponible.""غير متصل ولا توجد قائمة..."autoLoadSuccess"Liste chargée automatiquement (N véhicules)""تم التحميل التلقائي..."autoLoadFail"Chargement automatique échoué...""فشل التحميل التلقائي..."
+
+App.tsx — 5 modifications
+1. Nouveaux imports (lignes 9-10) :
+typescriptimport * as Network from "expo-network";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+2. Constantes de stockage (après les imports) :
+typescriptconst STORAGE_KEY_PATH = "sv_file_path";  // chemin original
+const STORAGE_KEY_NAME = "sv_file_name";  // nom du fichier
+const STORAGE_KEY_PWD  = "sv_password";   // mot de passe
+const LOCAL_ENC_PATH   = FileSystem.documentDirectory + "suivi_local.enc";
+3. Nouveau useEffect — déclenche autoLoad() au démarrage.
+4. Nouvelle fonction autoLoad() — orchestre toute la logique :
+
+Lit AsyncStorage → si vide : ouvre modal
+Si connecté : charge depuis chemin original → si échec : ouvre modal
+Si hors-ligne : charge depuis copie locale → si échec : message erreur
+
+5. Fonction processImport() modifiée — après succès ajoute :
+
+Sauvegarde chemin + MDP dans AsyncStorage
+Copie le fichier .enc vers suivi_local.enc (pour usage hors-ligne)
+
+
+Comment appliquer
+powershellcd D:\Projet\SuiviVoiture
+
+# 1. Installer les dépendances
+npx expo install @react-native-async-storage/async-storage
+npx expo install expo-network
+
+# 2. Remplacer App.tsx
+# → Copier new_App.tsx → renommer en App.tsx
+
+# 3. Remplacer src\i18n.ts
+# → Copier new_i18n.ts → renommer en i18n.ts et placer dans src\
+
+# 4. Tester
+npx expo start

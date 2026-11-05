@@ -1,0 +1,2 @@
+cd D:\Projet
+npx create-expo-app@latest SuiviVoiture52 --template blank-typescript

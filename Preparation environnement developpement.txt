@@ -1,0 +1,31 @@
+Étape 1 — Installer les outils (une seule fois)
+	Node.js depuis nodejs.org → moteur JavaScript
+	VS Code → éditeur de code
+	Git → gestionnaire de versions
+
+Étape 2 — Créer un compte Expo (gratuit sur expo.dev)
+
+Étape 3 — Installer Expo CLI et EAS CLI
+	npm install -g expo-cli eas-cli
+	eas login
+
+Étape 4 — Créer le projet React Native
+	npx create-expo-app acces-cite --template blank-typescript
+
+Étape 5 — Configurer app.json et eas.json avec le nom de votre app et l'icône
+
+Étape 6 — Traduire le code — c'est l'étape principale : votre logique JavaScript (déchiffrement AES, parsing CSV, couleurs) se réutilise presque à l'identique, seul l'affichage change (<div> → <View>, <p> → <Text>, etc.)
+
+Étape 7 — Tester en direct avec l'app Expo Go sur votre téléphone — pas besoin de compiler, les modifications apparaissent instantanément
+
+Étape 8 — Compiler l'APK dans le cloud :
+	eas build --platform android --profile preview
+→ Vous recevez un lien de téléchargement de votre .apk en ~10 minutes
+
+Étape 9 — Installer sur Android (ou publier sur le Play Store si vous le souhaitez)
+Le guide détaillé avec tous les exemples de code est dans le fichier joint. N'hésitez pas si vous bloquez sur une étape spécifique !
+✅ Installer Node.js
+✅ Configurer Expo configuré
+✅ Projet React Native
+✅ Dépendances installées
+✅ Application visible sur le téléphone via Expo Go

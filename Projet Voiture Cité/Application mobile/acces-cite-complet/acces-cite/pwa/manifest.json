@@ -1,0 +1,34 @@
+{
+  "name": "Contrôle Accès Cité",
+  "short_name": "AccèsCité",
+  "description": "Contrôle d'accès des véhicules à la cité | مراقبة دخول السكنات",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1a237e",
+  "theme_color": "#1a237e",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["utilities", "security"],
+  "shortcuts": [
+    {
+      "name": "Rechercher un véhicule",
+      "short_name": "Rechercher",
+      "description": "Accès direct à la recherche",
+      "url": "./index.html#search"
+    }
+  ]
+}

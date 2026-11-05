@@ -1,0 +1,77 @@
+Application Web (PWA) ✅
+	Interface bilingue FR/AR
+	Déchiffrement AES
+	Silhouette voiture colorée dynamiquement
+	Import CSV chiffré
+	Installable sur Android via Chrome
+
+Application Mobile React Native ✅
+	Même fonctionnalités que la PWA
+	Structure professionnelle en 5 fichiers
+	Fonctionne sur Expo Go (SDK 54)
+	Prête pour la compilation APK via EAS Build
+
+Voici les etapes de traduction exact de l'application PWA 'SuiviVehicule' vers React Native :
+
+— Installer les dépendances :
+D:\Projet\SuiviVoiture
+npx expo install expo-document-picker expo-file-system expo-haptics react-native-svg react-native-safe-area-context react-native-screens
+Important : En cas d'erreur 'npm error code EALLOWSCRIPTS', créer le .npmrc sans BOM puis installer directement via package.json (toutes les dépendances sont ajoutes directement dans package.json)
+
+npm install crypto-js
+npm install --save-dev @types/crypto-js
+
+— Structure des fichiers à créer
+
+```
+SuiviVoiture/
+├── app.tsx          ← Écran principal
+│   
+├── src/
+│   ├── components/
+│   │   └── CarSilhouette.tsx   ← SVG voiture
+│   ├── utils/
+│   │   └── vehicleUtils.ts     ← Déchiffrement, parsing CSV
+│   ├── i18n.ts            ← Traductions FR/AR
+│   └── types.ts           ← Types TypeScript
+├── assets/
+│   └── icon.png
+├── app.json
+└── eas.json
+
+— Créer la structure des dossiers :
+mkdir src
+mkdir src\components
+mkdir src\utils
+
+— Créer les fichiers de l'application :
+src\types.ts qui defini la structure du fichier a lire et les langues disponibles
+src\utils\vehicleUtils.ts qui dechiffre la liste puis importe son contenu
+src\i18n.ts qui contient la traduction en langue arabe et francais de l'application
+src\components\CarSilhouette.tsx qui contient la silhouette de la voiture
+
+Creation du fichier App.tsx (écran principal complet) appele en premier et qui exploite tous les fichiers precedents
+
+la structure en 5 fichiers est recommandée car elle vous enseigne les bonnes habitudes. Le fichier App.tsx peut contenir tout :
+  ├── Les types (interface Vehicle...)
+  ├── Les utilitaires (decryptAES, parseCSV...)
+  ├── Les traductions (const T = {...})
+  ├── Le composant CarSilhouette
+  └── Le composant principal App
+
+Important : En cas de probleme de version avec 'expo-document-picker', indiquez la bonne version dans le fichier 'package.json'
+Vérifier les versions disponibles avant d'installer avec la commande :
+npm view expo-document-picker versions --json 2>$null | Select-String "12\."
+
+Vérifier les octets (pas de BOM) de ce fichier avec la commande :
+$bytes = [System.IO.File]::ReadAllBytes("D:\Projet\SuiviVoiture\package.json")
+Write-Host "Premiers octets:" $bytes[0] $bytes[1] $bytes[2]
+Elle doit afficher 123 10 32 equivalent de { saut de ligne et espace
+
+Réinstaller
+Remove-Item -Recurse -Force node_modules
+Remove-Item package-lock.json -ErrorAction SilentlyContinue
+npm install
+
+- Lancer Expo Go
+npx expo start --clear

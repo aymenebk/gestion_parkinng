@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "Suivi Voitures",
+    "slug": "acces-cite",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "monochromeImage": "./assets/images/android-icon-monochrome.png",
+        "backgroundColor": "#1a237e"
+      },
+      "package": "com.cite.suivivoitures"
+    },
+    "web": {
+      "bundler": "metro",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "scheme": "acces-cite"
+  }
+}

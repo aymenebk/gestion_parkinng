@@ -1,0 +1,29 @@
+La meilleure approche pour convertir votre PWA en APK Android avec des logiciels libres sous Windows 11 est d'utiliser Expo + React Native.
+
+En résumé, voici le chemin à suivre en 9 étapes :
+
+Étape 1 — Installer les outils (une seule fois)
+	Node.js depuis nodejs.org → moteur JavaScript
+	VS Code → éditeur de code
+	Git → gestionnaire de versions
+
+Étape 2 — Créer un compte Expo (gratuit sur expo.dev)
+
+Étape 3 — Installer Expo CLI et EAS CLI
+	powershellnpm install -g expo-cli eas-cli
+	eas login
+
+Étape 4 — Créer le projet React Native
+	powershellnpx create-expo-app acces-cite --template blank-typescript
+
+Étape 5 — Configurer app.json et eas.json avec le nom de votre app et l'icône
+
+Étape 6 — Traduire le code — c'est l'étape principale : votre logique JavaScript (déchiffrement AES, parsing CSV, couleurs) se réutilise presque à l'identique, seul l'affichage change (<div> → <View>, <p> → <Text>, etc.)
+
+Étape 7 — Tester en direct avec l'app Expo Go sur votre téléphone — pas besoin de compiler, les modifications apparaissent instantanément
+
+Étape 8 — Compiler l'APK dans le cloud :
+powershelleas build --platform android --profile preview
+→ Vous recevez un lien de téléchargement de votre .apk en ~10 minutes
+
+Étape 9 — Installer sur Android (ou publier sur le Play Store si vous le souhaitez)

@@ -1,0 +1,11 @@
+node_modules/
+.expo/
+.env
+*.apk
+*.aab
+*.exe
+*.zip
+*.apk
+*.aab
+node_modules/
+Installation/

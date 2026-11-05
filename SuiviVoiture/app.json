@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "Suivi Voitures",
+    "slug": "suivivoiture",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#1a237e"
+      },
+      "package": "com.cite.suivivoitures"
+    },
+    "scheme": "suivivoiture",
+    "extra": {
+      "eas": {
+        "projectId": "8d2bed63-88b9-459a-bdcd-218fb47782da"
+      }
+    }
+  }
+}

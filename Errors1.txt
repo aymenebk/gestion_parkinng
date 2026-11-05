@@ -1,0 +1,322 @@
+Running 'gradlew :app:assembleRelease' in /home/expo/workingdir/build/android
+Downloading https://services.gradle.org/distributions/gradle-8.14.3-bin.zip
+10%.
+20%.
+30%.
+40%.
+50%.
+60%.
+70%
+80%
+90%
+100%
+Welcome to Gradle 8.14.3!
+Here are the highlights of this release:
+ - Java 24 support
+ - GraalVM Native Image toolchain selection
+- Enhancements to test reporting
+ - Build Authoring improvements
+For more details see https://docs.gradle.org/8.14.3/release-notes.html
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.14.3/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build
+> Configure project :expo-gradle-plugin:expo-autolinking-plugin
+w: file:///home/expo/workingdir/build/node_modules/expo-modules-autolinking/android/expo-gradle-plugin/expo-autolinking-plugin/build.gradle.kts:25:3: 'kotlinOptions(KotlinJvmOptionsDeprecated /* = KotlinJvmOptions */.() -> Unit): Unit' is deprecated. Please migrate to the compilerOptions DSL. More details are here: https://kotl.in/u1r8ln
+> Configure project :expo-gradle-plugin:expo-autolinking-settings-plugin
+w: file:///home/expo/workingdir/build/node_modules/expo-modules-autolinking/android/expo-gradle-plugin/expo-autolinking-settings-plugin/build.gradle.kts:30:3: 'kotlinOptions(KotlinJvmOptionsDeprecated /* = KotlinJvmOptions */.() -> Unit): Unit' is deprecated. Please migrate to the compilerOptions DSL. More details are here: https://kotl.in/u1r8ln
+> Task :gradle-plugin:shared:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :expo-gradle-plugin:expo-autolinking-plugin-shared:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle-plugin:settings-plugin:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle-plugin:settings-plugin:pluginDescriptors
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:pluginDescriptors
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:processResources
+> Task :gradle-plugin:settings-plugin:processResources
+> Task :expo-gradle-plugin:expo-autolinking-plugin-shared:processResources NO-SOURCE
+> Task :gradle-plugin:shared:processResources NO-SOURCE
+> Task :gradle-plugin:shared:compileKotlin
+> Task :gradle-plugin:shared:compileJava NO-SOURCE
+> Task :gradle-plugin:shared:classes UP-TO-DATE
+> Task :gradle-plugin:shared:jar
+> Task :expo-gradle-plugin:expo-autolinking-plugin-shared:compileKotlin
+> Task :expo-gradle-plugin:expo-autolinking-plugin-shared:compileJava NO-SOURCE
+> Task :expo-gradle-plugin:expo-autolinking-plugin-shared:classes UP-TO-DATE
+> Task :expo-gradle-plugin:expo-autolinking-plugin-shared:jar
+> Task :gradle-plugin:settings-plugin:compileKotlin
+> Task :gradle-plugin:settings-plugin:compileJava NO-SOURCE
+> Task :gradle-plugin:settings-plugin:classes
+> Task :gradle-plugin:settings-plugin:jar
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:compileKotlin
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:compileJava NO-SOURCE
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:classes
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:jar
+> Configure project :expo-module-gradle-plugin
+w: file:///home/expo/workingdir/build/node_modules/expo-modules-core/expo-module-gradle-plugin/build.gradle.kts:58:3: 'kotlinOptions(KotlinJvmOptionsDeprecated /* = KotlinJvmOptions */.() -> Unit): Unit' is deprecated. Please migrate to the compilerOptions DSL. More details are here: https://kotl.in/u1r8ln
+> Task :expo-gradle-plugin:expo-autolinking-plugin:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle-plugin:react-native-gradle-plugin:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :expo-module-gradle-plugin:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :expo-module-gradle-plugin:pluginDescriptors
+> Task :expo-module-gradle-plugin:processResources
+> Task :expo-gradle-plugin:expo-autolinking-plugin:pluginDescriptors
+> Task :expo-gradle-plugin:expo-autolinking-plugin:processResources
+> Task :gradle-plugin:react-native-gradle-plugin:pluginDescriptors
+> Task :gradle-plugin:react-native-gradle-plugin:processResources
+> Task :expo-gradle-plugin:expo-autolinking-plugin:compileKotlin
+> Task :expo-gradle-plugin:expo-autolinking-plugin:compileJava NO-SOURCE
+> Task :expo-gradle-plugin:expo-autolinking-plugin:classes
+> Task :expo-gradle-plugin:expo-autolinking-plugin:jar
+> Task :gradle-plugin:react-native-gradle-plugin:compileKotlin
+> Task :gradle-plugin:react-native-gradle-plugin:compileJava
+NO-SOURCE
+> Task :gradle-plugin:react-native-gradle-plugin:classes
+> Task :gradle-plugin:react-native-gradle-plugin:jar
+> Task :expo-module-gradle-plugin:compileKotlin
+w: file:///home/expo/workingdir/build/node_modules/expo-modules-core/expo-module-gradle-plugin/src/main/kotlin/expo/modules/plugin/android/AndroidLibraryExtension.kt:9:24 'var targetSdk: Int?' is deprecated. Will be removed from library DSL in v9.0. Use testOptions.targetSdk or/and lint.targetSdk instead.
+> Task :expo-module-gradle-plugin:compileJava NO-SOURCE
+> Task :expo-module-gradle-plugin:classes
+> Task :expo-module-gradle-plugin:jar
+> Configure project :
+[ExpoRootProject] Using the following versions:
+- buildTools:  36.0.0
+  - minSdk:      24
+  - compileSdk:  36
+  - targetSdk:   36
+  - ndk:         27.1.12297006
+  - kotlin:      2.1.20
+  - ksp:         2.1.20-2.0.1
+> Configure project :expo
+Using expo modules
+  - expo-constants (18.0.13)
+  - expo-document-picker (12.0.2)
+  - expo-file-system (17.0.1)
+  - expo-haptics (13.0.1)
+- expo-modules-core (3.0.30)
+- expo-network (7.0.5)
+  - [📦] expo-asset (12.0.13)
+  - [📦] expo-font (14.0.12)
+  - [📦] expo-keep-awake (15.0.8)
+Checking the license for package Android SDK Build-Tools 36 in /home/expo/Android/Sdk/licenses
+License for package Android SDK Build-Tools 36 accepted.
+Preparing "Install Android SDK Build-Tools 36 v.36.0.0".
+"Install Android SDK Build-Tools 36 v.36.0.0" ready.
+Installing Android SDK Build-Tools 36 in /home/expo/Android/Sdk/build-tools/36.0.0
+"Install Android SDK Build-Tools 36 v.36.0.0" complete.
+"Install Android SDK Build-Tools 36 v.36.0.0" finished.
+[=======================================] 100% Fetch remote repository...       
+> Task :expo-document-picker:preBuild UP-TO-DATE
+> Task :expo-file-system:preBuild UP-TO-DATE
+> Task :expo-haptics:preBuild UP-TO-DATE
+> Task :expo-modules-core:preBuild UP-TO-DATE
+> Task :expo-network:preBuild UP-TO-DATE
+> Task :app:generateAutolinkingNewArchitectureFiles
+> Task :app:generateAutolinkingPackageList
+> Task :app:generateCodegenSchemaFromJavaScript SKIPPED
+> Task :app:generateCodegenArtifactsFromSchema SKIPPED
+> Task :app:generateReactNativeEntryPoint
+> Task :expo-constants:createExpoConfig
+> Task :expo-constants:preBuild
+The NODE_ENV environment variable is required but was not specified. Ensure the project is bundled with Expo CLI or NODE_ENV is set. Using only .env.local and .env
+> Task :react-native-safe-area-context:generateCodegenSchemaFromJavaScript
+> Task :expo:generatePackagesList
+> Task :expo:preBuild
+> Task :react-native-async-storage_async-storage:generateCodegenSchemaFromJavaScript
+> Task :react-native-screens:generateCodegenSchemaFromJavaScript
+> Task :react-native-async-storage_async-storage:generateCodegenArtifactsFromSchema
+> Task :react-native-async-storage_async-storage:preBuild
+> Task :expo:preReleaseBuild
+> Task :react-native-safe-area-context:generateCodegenArtifactsFromSchema
+> Task :react-native-safe-area-context:preBuild
+> Task :expo-constants:preReleaseBuild
+> Task :react-native-svg:generateCodegenSchemaFromJavaScript
+> Task :expo-constants:mergeReleaseJniLibFolders
+> Task :expo:mergeReleaseJniLibFolders
+> Task :expo-constants:mergeReleaseNativeLibs NO-SOURCE
+> Task :expo:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-screens:generateCodegenArtifactsFromSchema
+> Task :react-native-screens:preBuild
+> Task :expo-document-picker:preReleaseBuild UP-TO-DATE
+> Task :expo-document-picker:mergeReleaseJniLibFolders
+> Task :expo-constants:copyReleaseJniLibsProjectOnly
+> Task :expo-file-system:preReleaseBuild UP-TO-DATE
+> Task :expo:copyReleaseJniLibsProjectOnly
+> Task :expo-haptics:preReleaseBuild UP-TO-DATE
+> Task :expo-document-picker:mergeReleaseNativeLibs NO-SOURCE
+> Task :expo-file-system:mergeReleaseJniLibFolders
+> Task :expo-document-picker:copyReleaseJniLibsProjectOnly
+> Task :expo-modules-core:preReleaseBuild UP-TO-DATE
+> Task :expo-haptics:mergeReleaseJniLibFolders
+> Task :expo-file-system:mergeReleaseNativeLibs NO-SOURCE
+> Task :expo-haptics:mergeReleaseNativeLibs NO-SOURCE
+> Task :expo-file-system:copyReleaseJniLibsProjectOnly
+> Task :expo-network:preReleaseBuild UP-TO-DATE
+> Task :expo-haptics:copyReleaseJniLibsProjectOnly
+> Task :react-native-async-storage_async-storage:preReleaseBuild
+> Task :expo-network:mergeReleaseJniLibFolders
+> Task :expo-network:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-async-storage_async-storage:mergeReleaseJniLibFolders
+> Task :react-native-async-storage_async-storage:mergeReleaseNativeLibs NO-SOURCE
+> Task :expo-network:copyReleaseJniLibsProjectOnly
+> Task :react-native-safe-area-context:preReleaseBuild
+> Task :react-native-async-storage_async-storage:copyReleaseJniLibsProjectOnly
+> Task :react-native-screens:preReleaseBuild
+> Task :react-native-safe-area-context:mergeReleaseJniLibFolders
+> Task :react-native-safe-area-context:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-safe-area-context:copyReleaseJniLibsProjectOnly
+> Task :react-native-safe-area-context:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :react-native-safe-area-context:generateReleaseBuildConfig
+> Task :react-native-safe-area-context:generateReleaseResValues
+> Task :react-native-safe-area-context:generateReleaseResources
+> Task :react-native-safe-area-context:packageReleaseResources
+> Task :react-native-svg:generateCodegenArtifactsFromSchema
+> Task :react-native-svg:preBuild
+> Task :app:preBuild
+> Task :app:preReleaseBuild
+> Task :react-native-safe-area-context:parseReleaseLocalResources
+> Task :react-native-svg:preReleaseBuild
+> Task :react-native-svg:mergeReleaseJniLibFolders
+> Task :react-native-svg:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-svg:copyReleaseJniLibsProjectOnly
+> Task :react-native-safe-area-context:generateReleaseRFile
+> Task :expo-modules-core:configureCMakeRelWithDebInfo[arm64-v8a]
+Checking the license for package CMake 3.22.1 in /home/expo/Android/Sdk/licenses
+License for package CMake 3.22.1 accepted.
+Preparing "Install CMake 3.22.1 v.3.22.1".
+"Install CMake 3.22.1 v.3.22.1" ready.
+Installing CMake 3.22.1 in /home/expo/Android/Sdk/cmake/3.22.1
+"Install CMake 3.22.1 v.3.22.1" complete.
+"Install CMake 3.22.1 v.3.22.1" finished.
+> Task :react-native-screens:configureCMakeRelWithDebInfo[arm64-v8a]
+> Task :app:configureCMakeRelWithDebInfo[arm64-v8a]
+> Task :react-native-screens:buildCMakeRelWithDebInfo[arm64-v8a]
+C/C++: ninja: Entering directory `/home/expo/workingdir/build/node_modules/react-native-screens/android/.cxx/RelWithDebInfo/4f6a4l14/arm64-v8a'
+C/C++: /home/expo/Android/Sdk/ndk/27.1.12297006/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=aarch64-none-linux-android24 --sysroot=/home/expo/Android/Sdk/ndk/27.1.12297006/toolchains/llvm/prebuilt/linux-x86_64/sysroot -DFOLLY_NO_CONFIG=1 -Drnscreens_EXPORTS -I/home/expo/workingdir/build/node_modules/react-native-screens/android/../cpp -isystem /home/expo/.gradle/caches/8.14.3/transforms/145780e1d71abfdd0f73b65783049973/transformed/react-android-0.81.5-release/prefab/modules/reactnative/include -isystem /home/expo/.gradle/caches/8.14.3/transforms/145780e1d71abfdd0f73b65783049973/transformed/react-android-0.81.5-release/prefab/modules/jsi/include -isystem /home/expo/.gradle/caches/8.14.3/transforms/c4ed38aee617328a15ca67287b31027e/transformed/fbjni-0.7.0/prefab/modules/fbjni/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -g -DNDEBUG -fPIC -std=c++20 -MD -MT CMakeFiles/rnscreens.dir/home/expo/workingdir/build/node_modules/react-native-screens/cpp/RNSScreenRemovalListener.cpp.o -MF CMakeFiles/rnscreens.dir/home/expo/workingdir/build/node_modules/react-native-screens/cpp/RNSScreenRemovalListener.cpp.o.d -o CMakeFiles/rnscreens.dir/home/expo/workingdir/build/node_modules/react-native-screens/cpp/RNSScreenRemovalListener.cpp.o -c /home/expo/workingdir/build/node_modules/react-native-screens/cpp/RNSScreenRemovalListener.cpp
+C/C++: /home/expo/workingdir/build/node_modules/react-native-screens/cpp/RNSScreenRemovalListener.cpp:13:25: error: no member named 'parentShadowView' in 'facebook::react::ShadowViewMutation'
+C/C++:    13 |         strcmp(mutation.parentShadowView.componentName, "RNSScreenStack") ==
+C/C++:       |                ~~~~~~~~ ^
+C/C++: 1 error generated.
+> Task :react-native-safe-area-context:compileReleaseKotlin
+w: file:///home/expo/workingdir/build/node_modules/react-native-safe-area-context/android/src/main/java/com/th3rdwave/safeareacontext/SafeAreaContextPackage.kt:27:11 'constructor(name: String, className: String, canOverrideExistingModule: Boolean, needsEagerInit: Boolean, hasConstants: Boolean, isCxxModule: Boolean, isTurboModule: Boolean): ReactModuleInfo' is deprecated. This constructor is deprecated and will be removed in the future. Use ReactModuleInfo(String, String, boolean, boolean, boolean, boolean)].
+w: file:///home/expo/workingdir/build/node_modules/react-native-safe-area-context/android/src/main/java/com/th3rdwave/safeareacontext/SafeAreaContextPackage.kt:33:27 'val hasConstants: Boolean' is deprecated. This property is unused and it's planning to be removed in a future version of
+        React Native. Please refrain from using it.
+w: file:///home/expo/workingdir/build/node_modules/react-native-safe-area-context/android/src/main/java/com/th3rdwave/safeareacontext/SafeAreaView.kt:59:23 'val uiImplementation: UIImplementation!' is deprecated. Deprecated in Java.
+> Task :react-native-safe-area-context:javaPreCompileRelease
+> Task :react-native-screens:buildCMakeRelWithDebInfo[arm64-v8a] FAILED
+> Task :app:buildCMakeRelWithDebInfo[arm64-v8a]
+C/C++: ninja: Entering directory `/home/expo/workingdir/build/android/app/.cxx/RelWithDebInfo/116c1wd4/arm64-v8a'
+C/C++: ccache /home/expo/Android/Sdk/ndk/27.1.12297006/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=aarch64-none-linux-android24 --sysroot=/home/expo/Android/Sdk/ndk/27.1.12297006/toolchains/llvm/prebuilt/linux-x86_64/sysroot -DRN_SERIALIZABLE_STATE -Dappmodules_EXPORTS -I/home/expo/workingdir/build/node_modules/react-native/ReactAndroid/cmake-utils/default-app-setup -I/home/expo/workingdir/build/android/app/build/generated/autolinking/src/main/jni -I/home/expo/workingdir/build/node_modules/react-native-svg/android/src/main/jni -I/home/expo/workingdir/build/node_modules/react-native-safe-area-context/android/src/main/jni -I/home/expo/workingdir/build/node_modules/react-native-screens/android/src/main/jni -I/home/expo/workingdir/build/node_modules/react-native-svg/android/src/main/jni/. -I/home/expo/workingdir/build/node_modules/react-native-svg/android/src/main/jni/../../../../common/cpp -I/home/expo/workingdir/build/node_modules/react-native-svg/android/src/main/jni/../../../build/generated/source/codegen/jni -I/home/expo/workingdir/build/node_modules/react-native-svg/android/src/main/jni/../../../build/generated/source/codegen/jni/react/renderer/components/rnsvg -I/home/expo/workingdir/build/node_modules/react-native-safe-area-context/android/src/main/jni/. -I/home/expo/workingdir/build/node_modules/react-native-safe-area-context/android/src/main/jni/../../../../common/cpp -I/home/expo/workingdir/build/node_modules/react-native-safe-area-context/android/src/main/jni/../../../build/generated/source/codegen/jni -I/home/expo/workingdir/build/node_modules/react-native-safe-area-context/android/src/main/jni/../../../build/generated/source/codegen/jni/react/renderer/components/safeareacontext -I/home/expo/workingdir/build/node_modules/react-native-screens/android/src/main/jni/. -I/home/expo/workingdir/build/node_modules/react-native-screens/android/src/main/jni/../../../../common/cpp -I/home/expo/workingdir/build/node_modules/react-native-screens/android/src/main/jni/../../../build/generated/source/codegen/jni -I/home/expo/workingdir/build/node_modules/react-native-screens/android/src/main/jni/../../../build/generated/source/codegen/jni/react/renderer/components/rnscreens -I/home/expo/workingdir/build/node_modules/@react-native-async-storage/async-storage/android/build/generated/source/codegen/jni/. -I/home/expo/workingdir/build/node_modules/@react-native-async-storage/async-storage/android/build/generated/source/codegen/jni/react/renderer/components/rnasyncstorage -isystem /home/expo/.gradle/caches/8.14.3/transforms/c4ed38aee617328a15ca67287b31027e/transformed/fbjni-0.7.0/prefab/modules/fbjni/include -isystem /home/expo/.gradle/caches/8.14.3/transforms/145780e1d71abfdd0f73b65783049973/transformed/react-android-0.81.5-release/prefab/modules/jsi/include -isystem /home/expo/.gradle/caches/8.14.3/transforms/145780e1d71abfdd0f73b65783049973/transformed/react-android-0.81.5-release/prefab/modules/reactnative/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D__BIONIC_NO_PAGE_SIZE_MACRO -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -g -DNDEBUG -fPIC -Wall -Werror -fexceptions -frtti -std=c++20 -DFOLLY_NO_CONFIG=1 -DLOG_TAG=\"ReactNative\" -DFOLLY_HAVE_CLOCK_GETTIME=1 -DFOLLY_USE_LIBCPP=1 -DFOLLY_CFG_NO_COROUTINES=1 -DFOLLY_MOBILE=1 -DFOLLY_HAVE_RECVMMSG=1 -DFOLLY_HAVE_PTHREAD=1 -DFOLLY_HAVE_XSI_STRERROR_R=1 -MD -MT CMakeFiles/appmodules.dir/home/expo/workingdir/build/android/app/build/generated/autolinking/src/main/jni/autolinking.cpp.o -MF CMakeFiles/appmodules.dir/home/expo/workingdir/build/android/app/build/generated/autolinking/src/main/jni/autolinking.cpp.o.d -o CMakeFiles/appmodules.dir/home/expo/workingdir/build/android/app/build/generated/autolinking/src/main/jni/autolinking.cpp.o -c /home/expo/workingdir/build/android/app/build/generated/autolinking/src/main/jni/autolinking.cpp
+C/C++: In file included from /home/expo/workingdir/build/android/app/build/generated/autolinking/src/main/jni/autolinking.cpp:14:
+C/C++: In file included from /home/expo/workingdir/build/node_modules/react-native-screens/android/src/main/jni/rnscreens.h:19:
+C/C++: In file included from /home/expo/workingdir/build/node_modules/react-native-screens/android/src/main/jni/../../../../common/cpp/react/renderer/components/rnscreens/RNSScreenComponentDescriptor.h:10:
+C/C++: /home/expo/workingdir/build/node_modules/react-native-screens/android/src/main/jni/../../../../common/cpp/react/renderer/components/rnscreens/RNSScreenShadowNode.h:31:38: error: 'Shared' is deprecated: Use std::shared_ptr<const ShadowNode> instead [-Werror,-Wdeprecated-declarations]
+C/C++:    31 |   void appendChild(const ShadowNode::Shared &child) override;
+C/C++:       |                                      ^
+C/C++: /home/expo/.gradle/caches/8.14.3/transforms/145780e1d71abfdd0f73b65783049973/transformed/react-android-0.81.5-release/prefab/modules/reactnative/include/react/renderer/core/ShadowNode.h:36:18: note: 'Shared' has been explicitly marked deprecated here
+C/C++:    36 |   using Shared [[deprecated("Use std::shared_ptr<const ShadowNode> instead")]] =
+C/C++:       |                  ^
+C/C++: 1 error generated.
+> Task :expo-modules-core:buildCMakeRelWithDebInfo[arm64-v8a]
+> Task :react-native-safe-area-context:compileReleaseJavaWithJavac
+> Task :app:buildCMakeRelWithDebInfo[arm64-v8a]
+C/C++: ccache /home/expo/Android/Sdk/ndk/27.1.12297006/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=aarch64-none-linux-android24 --sysroot=/home/expo/Android/Sdk/ndk/27.1.12297006/toolchains/llvm/prebuilt/linux-x86_64/sysroot -Dreact_codegen_safeareacontext_EXPORTS -I/home/expo/workingdir/build/node_modules/react-native-safe-area-context/android/src/main/jni/. -I/home/expo/workingdir/build/node_modules/react-native-safe-area-context/android/src/main/jni/../../../../common/cpp -I/home/expo/workingdir/build/node_modules/react-native-safe-area-context/android/src/main/jni/../../../build/generated/source/codegen/jni -I/home/expo/workingdir/build/node_modules/react-native-safe-area-context/android/src/main/jni/../../../build/generated/source/codegen/jni/react/renderer/components/safeareacontext -isystem /home/expo/.gradle/caches/8.14.3/transforms/c4ed38aee617328a15ca67287b31027e/transformed/fbjni-0.7.0/prefab/modules/fbjni/include -isystem /home/expo/.gradle/caches/8.14.3/transforms/145780e1d71abfdd0f73b65783049973/transformed/react-android-0.81.5-release/prefab/modules/jsi/include -isystem /home/expo/.gradle/caches/8.14.3/transforms/145780e1d71abfdd0f73b65783049973/transformed/react-android-0.81.5-release/prefab/modules/reactnative/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D__BIONIC_NO_PAGE_SIZE_MACRO -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -g -DNDEBUG -fPIC -fexceptions -frtti -std=c++20 -Wall -Wpedantic -Wno-gnu-zero-variadic-macro-arguments -DLOG_TAG=\"ReactNative\" -DFOLLY_NO_CONFIG=1 -DFOLLY_HAVE_CLOCK_GETTIME=1 -DFOLLY_USE_LIBCPP=1 -DFOLLY_CFG_NO_COROUTINES=1 -DFOLLY_MOBILE=1 -DFOLLY_HAVE_RECVMMSG=1 -DFOLLY_HAVE_PTHREAD=1 -DFOLLY_HAVE_XSI_STRERROR_R=1 -MD -MT safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/home/expo/workingdir/build/node_modules/react-native-safe-area-context/common/cpp/react/renderer/components/safeareacontext/RNCSafeAreaViewShadowNode.cpp.o -MF safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/home/expo/workingdir/build/node_modules/react-native-safe-area-context/common/cpp/react/renderer/components/safeareacontext/RNCSafeAreaViewShadowNode.cpp.o.d -o safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/home/expo/workingdir/build/node_modules/react-native-safe-area-context/common/cpp/react/renderer/components/safeareacontext/RNCSafeAreaViewShadowNode.cpp.o -c /home/expo/workingdir/build/node_modules/react-native-safe-area-context/common/cpp/react/renderer/components/safeareacontext/RNCSafeAreaViewShadowNode.cpp
+C/C++: /home/expo/workingdir/build/node_modules/react-native-safe-area-context/common/cpp/react/renderer/components/safeareacontext/RNCSafeAreaViewShadowNode.cpp:19:12: error: no member named 'unit' in 'facebook::yoga::StyleLength'
+C/C++:    19 |   if (edge.unit() != Unit::Undefined) {
+C/C++:       |       ~~~~ ^
+C/C++: /home/expo/workingdir/build/node_modules/react-native-safe-area-context/common/cpp/react/renderer/components/safeareacontext/RNCSafeAreaViewShadowNode.cpp:22:12: error: no member named 'unit' in 'facebook::yoga::StyleLength'
+C/C++:    22 |   if (axis.unit() != Unit::Undefined) {
+C/C++:       |       ~~~~ ^
+C/C++: 2 errors generated.
+> Task :app:buildCMakeRelWithDebInfo[arm64-v8a] FAILED
+[Incubating] Problems report is available at: file:///home/expo/workingdir/build/android/build/reports/problems/problems-report.html
+FAILURE: Build completed with 2 failures.
+1: Task failed with an exception.
+-----------
+* What went wrong:
+Execution failed for task ':react-native-screens:buildCMakeRelWithDebInfo[arm64-v8a]'.
+> com.android.ide.common.process.ProcessException: ninja: Entering directory `/home/expo/workingdir/build/node_modules/react-native-screens/android/.cxx/RelWithDebInfo/4f6a4l14/arm64-v8a'
+  [1/6] Building CXX object CMakeFiles/rnscreens.dir/home/expo/workingdir/build/node_modules/react-native-screens/cpp/RNScreensTurboModule.cpp.o
+  [2/6] Building CXX object CMakeFiles/rnscreens.dir/src/main/cpp/jni-adapter.cpp.o
+  [3/6] Building CXX object CMakeFiles/rnscreens.dir/home/expo/workingdir/build/node_modules/react-native-screens/cpp/RNSScreenRemovalListener.cpp.o
+  FAILED: CMakeFiles/rnscreens.dir/home/expo/workingdir/build/node_modules/react-native-screens/cpp/RNSScreenRemovalListener.cpp.o 
+  /home/expo/Android/Sdk/ndk/27.1.12297006/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=aarch64-none-linux-android24 --sysroot=/home/expo/Android/Sdk/ndk/27.1.12297006/toolchains/llvm/prebuilt/linux-x86_64/sysroot -DFOLLY_NO_CONFIG=1 -Drnscreens_EXPORTS -I/home/expo/workingdir/build/node_modules/react-native-screens/android/../cpp -isystem /home/expo/.gradle/caches/8.14.3/transforms/145780e1d71abfdd0f73b65783049973/transformed/react-android-0.81.5-release/prefab/modules/reactnative/include -isystem /home/expo/.gradle/caches/8.14.3/transforms/145780e1d71abfdd0f73b65783049973/transformed/react-android-0.81.5-release/prefab/modules/jsi/include -isystem /home/expo/.gradle/caches/8.14.3/transforms/c4ed38aee617328a15ca67287b31027e/transformed/fbjni-0.7.0/prefab/modules/fbjni/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -g -DNDEBUG -fPIC -std=c++20 -MD -MT CMakeFiles/rnscreens.dir/home/expo/workingdir/build/node_modules/react-native-screens/cpp/RNSScreenRemovalListener.cpp.o -MF CMakeFiles/rnscreens.dir/home/expo/workingdir/build/node_modules/react-native-screens/cpp/RNSScreenRemovalListener.cpp.o.d -o CMakeFiles/rnscreens.dir/home/expo/workingdir/build/node_modules/react-native-screens/cpp/RNSScreenRemovalListener.cpp.o -c /home/expo/workingdir/build/node_modules/react-native-screens/cpp/RNSScreenRemovalListener.cpp
+  /home/expo/workingdir/build/node_modules/react-native-screens/cpp/RNSScreenRemovalListener.cpp:13:25: error: no member named 'parentShadowView' in 'facebook::react::ShadowViewMutation'
+     13 |         strcmp(mutation.parentShadowView.componentName, "RNSScreenStack") ==
+        |                ~~~~~~~~ ^
+  1 error generated.
+  [4/6] Building CXX object CMakeFiles/rnscreens.dir/src/main/cpp/OnLoad.cpp.o
+  [5/6] Building CXX object CMakeFiles/rnscreens.dir/src/main/cpp/NativeProxy.cpp.o
+  ninja: build stopped: subcommand failed.
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+For more on this, please refer to https://docs.gradle.org/8.14.3/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+70 actionable tasks: 70 executed
+C++ build system [build] failed while executing:
+      /home/expo/Android/Sdk/cmake/3.22.1/bin/ninja \
+        -C \
+        /home/expo/workingdir/build/node_modules/react-native-screens/android/.cxx/RelWithDebInfo/4f6a4l14/arm64-v8a \
+        rnscreens
+    from /home/expo/workingdir/build/node_modules/react-native-screens/android
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+==============================================================================
+2: Task failed with an exception.
+-----------
+* What went wrong:
+Execution failed for task ':app:buildCMakeRelWithDebInfo[arm64-v8a]'.
+> com.android.ide.common.process.ProcessException: ninja: Entering directory `/home/expo/workingdir/build/android/app/.cxx/RelWithDebInfo/116c1wd4/arm64-v8a'
+  [0/2] Re-checking globbed directories...
+  [1/45] Building CXX object rnsvg_autolinked_build/CMakeFiles/react_codegen_rnsvg.dir/home/expo/workingdir/build/node_modules/react-native-svg/common/cpp/react/renderer/components/rnsvg/RNSVGImageState.cpp.o
+  [2/45] Building CXX object CMakeFiles/appmodules.dir/OnLoad.cpp.o
+  [3/45] Building CXX object rnsvg_autolinked_build/CMakeFiles/react_codegen_rnsvg.dir/home/expo/workingdir/build/node_modules/react-native-svg/common/cpp/react/renderer/components/rnsvg/RNSVGImageShadowNode.cpp.o
+  [4/45] Building CXX object rnsvg_autolinked_build/CMakeFiles/react_codegen_rnsvg.dir/rnsvg.cpp.o
+  [5/45] Building CXX object rnsvg_autolinked_build/CMakeFiles/react_codegen_rnsvg.dir/home/expo/workingdir/build/node_modules/react-native-svg/android/build/generated/source/codegen/jni/react/renderer/components/rnsvg/States.cpp.o
+  [6/45] Building CXX object rnsvg_autolinked_build/CMakeFiles/react_codegen_rnsvg.dir/home/expo/workingdir/build/node_modules/react-native-svg/android/build/generated/source/codegen/jni/react/renderer/components/rnsvg/EventEmitters.cpp.o
+  [7/45] Building CXX object CMakeFiles/appmodules.dir/home/expo/workingdir/build/android/app/build/generated/autolinking/src/main/jni/autolinking.cpp.o
+  FAILED: CMakeFiles/appmodules.dir/home/expo/workingdir/build/android/app/build/generated/autolinking/src/main/jni/autolinking.cpp.o 
+  ccache /home/expo/Android/Sdk/ndk/27.1.12297006/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=aarch64-none-linux-android24 --sysroot=/home/expo/Android/Sdk/ndk/27.1.12297006/toolchains/llvm/prebuilt/linux-x86_64/sysroot -DRN_SERIALIZABLE_STATE -Dappmodules_EXPORTS -I/home/expo/workingdir/build/node_modules/react-native/ReactAndroid/cmake-utils/default-app-setup -I/home/expo/workingdir/build/android/app/build/generated/autolinking/src/main/jni -I/home/expo/workingdir/build/node_modules/react-native-svg/android/src/main/jni -I/home/expo/workingdir/build/node_modules/react-native-safe-area-context/android/src/main/jni -I/home/expo/workingdir/build/node_modules/react-native-screens/android/src/main/jni -I/home/expo/workingdir/build/node_modules/react-native-svg/android/src/main/jni/. -I/home/expo/workingdir/build/node_modules/react-native-svg/android/src/main/jni/../../../../common/cpp -I/home/expo/workingdir/build/node_modules/react-native-svg/android/src/main/jni/../../../build/generated/source/codegen/jni -I/home/expo/workingdir/build/node_modules/react-native-svg/android/src/main/jni/../../../build/generated/source/codegen/jni/react/renderer/components/rnsvg -I/home/expo/workingdir/build/node_modules/react-native-safe-area-context/android/src/main/jni/. -I/home/expo/workingdir/build/node_modules/react-native-safe-area-context/android/src/main/jni/../../../../common/cpp -I/home/expo/workingdir/build/node_modules/react-native-safe-area-context/android/src/main/jni/../../../build/generated/source/codegen/jni -I/home/expo/workingdir/build/node_modules/react-native-safe-area-context/android/src/main/jni/../../../build/generated/source/codegen/jni/react/renderer/components/safeareacontext -I/home/expo/workingdir/build/node_modules/react-native-screens/android/src/main/jni/. -I/home/expo/workingdir/build/node_modules/react-native-screens/android/src/main/jni/../../../../common/cpp -I/home/expo/workingdir/build/node_modules/react-native-screens/android/src/main/jni/../../../build/generated/source/codegen/jni -I/home/expo/workingdir/build/node_modules/react-native-screens/android/src/main/jni/../../../build/generated/source/codegen/jni/react/renderer/components/rnscreens -I/home/expo/workingdir/build/node_modules/@react-native-async-storage/async-storage/android/build/generated/source/codegen/jni/. -I/home/expo/workingdir/build/node_modules/@react-native-async-storage/async-storage/android/build/generated/source/codegen/jni/react/renderer/components/rnasyncstorage -isystem /home/expo/.gradle/caches/8.14.3/transforms/c4ed38aee617328a15ca67287b31027e/transformed/fbjni-0.7.0/prefab/modules/fbjni/include -isystem /home/expo/.gradle/caches/8.14.3/transforms/145780e1d71abfdd0f73b65783049973/transformed/react-android-0.81.5-release/prefab/modules/jsi/include -isystem /home/expo/.gradle/caches/8.14.3/transforms/145780e1d71abfdd0f73b65783049973/transformed/react-android-0.81.5-release/prefab/modules/reactnative/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D__BIONIC_NO_PAGE_SIZE_MACRO -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -g -DNDEBUG -fPIC -Wall -Werror -fexceptions -frtti -std=c++20 -DFOLLY_NO_CONFIG=1 -DLOG_TAG=\"ReactNative\" -DFOLLY_HAVE_CLOCK_GETTIME=1 -DFOLLY_USE_LIBCPP=1 -DFOLLY_CFG_NO_COROUTINES=1 -DFOLLY_MOBILE=1 -DFOLLY_HAVE_RECVMMSG=1 -DFOLLY_HAVE_PTHREAD=1 -DFOLLY_HAVE_XSI_STRERROR_R=1 -MD -MT CMakeFiles/appmodules.dir/home/expo/workingdir/build/android/app/build/generated/autolinking/src/main/jni/autolinking.cpp.o -MF CMakeFiles/appmodules.dir/home/expo/workingdir/build/android/app/build/generated/autolinking/src/main/jni/autolinking.cpp.o.d -o CMakeFiles/appmodules.dir/home/expo/workingdir/build/android/app/build/generated/autolinking/src/main/jni/autolinking.cpp.o -c /home/expo/workingdir/build/android/app/build/generated/autolinking/src/main/jni/autolinking.cpp
+  In file included from /home/expo/workingdir/build/android/app/build/generated/autolinking/src/main/jni/autolinking.cpp:14:
+  In file included from /home/expo/workingdir/build/node_modules/react-native-screens/android/src/main/jni/rnscreens.h:19:
+  In file included from /home/expo/workingdir/build/node_modules/react-native-screens/android/src/main/jni/../../../../common/cpp/react/renderer/components/rnscreens/RNSScreenComponentDescriptor.h:10:
+  /home/expo/workingdir/build/node_modules/react-native-screens/android/src/main/jni/../../../../common/cpp/react/renderer/components/rnscreens/RNSScreenShadowNode.h:31:38: error: 'Shared' is deprecated: Use std::shared_ptr<const ShadowNode> instead [-Werror,-Wdeprecated-declarations]
+     31 |   void appendChild(const ShadowNode::Shared &child) override;
+        |                                      ^
+  /home/expo/.gradle/caches/8.14.3/transforms/145780e1d71abfdd0f73b65783049973/transformed/react-android-0.81.5-release/prefab/modules/reactnative/include/react/renderer/core/ShadowNode.h:36:18: note: 'Shared' has been explicitly marked deprecated here
+     36 |   using Shared [[deprecated("Use std::shared_ptr<const ShadowNode> instead")]] =
+        |                  ^
+  1 error generated.
+  [8/45] Building CXX object rnsvg_autolinked_build/CMakeFiles/react_codegen_rnsvg.dir/home/expo/workingdir/build/node_modules/react-native-svg/android/build/generated/source/codegen/jni/react/renderer/components/rnsvg/ShadowNodes.cpp.o
+  [9/45] Building CXX object rnsvg_autolinked_build/CMakeFiles/react_codegen_rnsvg.dir/home/expo/workingdir/build/node_modules/react-native-svg/android/build/generated/source/codegen/jni/react/renderer/components/rnsvg/rnsvgJSI-generated.cpp.o
+  [10/45] Building CXX object safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/home/expo/workingdir/build/node_modules/react-native-safe-area-context/common/cpp/react/renderer/components/safeareacontext/RNCSafeAreaViewShadowNode.cpp.o
+  FAILED: safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/home/expo/workingdir/build/node_modules/react-native-safe-area-context/common/cpp/react/renderer/components/safeareacontext/RNCSafeAreaViewShadowNode.cpp.o 
+  ccache /home/expo/Android/Sdk/ndk/27.1.12297006/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=aarch64-none-linux-android24 --sysroot=/home/expo/Android/Sdk/ndk/27.1.12297006/toolchains/llvm/prebuilt/linux-x86_64/sysroot -Dreact_codegen_safeareacontext_EXPORTS -I/home/expo/workingdir/build/node_modules/react-native-safe-area-context/android/src/main/jni/. -I/home/expo/workingdir/build/node_modules/react-native-safe-area-context/android/src/main/jni/../../../../common/cpp -I/home/expo/workingdir/build/node_modules/react-native-safe-area-context/android/src/main/jni/../../../build/generated/source/codegen/jni -I/home/expo/workingdir/build/node_modules/react-native-safe-area-context/android/src/main/jni/../../../build/generated/source/codegen/jni/react/renderer/components/safeareacontext -isystem /home/expo/.gradle/caches/8.14.3/transforms/c4ed38aee617328a15ca67287b31027e/transformed/fbjni-0.7.0/prefab/modules/fbjni/include -isystem /home/expo/.gradle/caches/8.14.3/transforms/145780e1d71abfdd0f73b65783049973/transformed/react-android-0.81.5-release/prefab/modules/jsi/include -isystem /home/expo/.gradle/caches/8.14.3/transforms/145780e1d71abfdd0f73b65783049973/transformed/react-android-0.81.5-release/prefab/modules/reactnative/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D__BIONIC_NO_PAGE_SIZE_MACRO -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -g -DNDEBUG -fPIC -fexceptions -frtti -std=c++20 -Wall -Wpedantic -Wno-gnu-zero-variadic-macro-arguments -DLOG_TAG=\"ReactNative\" -DFOLLY_NO_CONFIG=1 -DFOLLY_HAVE_CLOCK_GETTIME=1 -DFOLLY_USE_LIBCPP=1 -DFOLLY_CFG_NO_COROUTINES=1 -DFOLLY_MOBILE=1 -DFOLLY_HAVE_RECVMMSG=1 -DFOLLY_HAVE_PTHREAD=1 -DFOLLY_HAVE_XSI_STRERROR_R=1 -MD -MT safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/home/expo/workingdir/build/node_modules/react-native-safe-area-context/common/cpp/react/renderer/components/safeareacontext/RNCSafeAreaViewShadowNode.cpp.o -MF safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/home/expo/workingdir/build/node_modules/react-native-safe-area-context/common/cpp/react/renderer/components/safeareacontext/RNCSafeAreaViewShadowNode.cpp.o.d -o safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/home/expo/workingdir/build/node_modules/react-native-safe-area-context/common/cpp/react/renderer/components/safeareacontext/RNCSafeAreaViewShadowNode.cpp.o -c /home/expo/workingdir/build/node_modules/react-native-safe-area-context/common/cpp/react/renderer/components/safeareacontext/RNCSafeAreaViewShadowNode.cpp
+  /home/expo/workingdir/build/node_modules/react-native-safe-area-context/common/cpp/react/renderer/components/safeareacontext/RNCSafeAreaViewShadowNode.cpp:19:12: error: no member named 'unit' in 'facebook::yoga::StyleLength'
+     19 |   if (edge.unit() != Unit::Undefined) {
+        |       ~~~~ ^
+  /home/expo/workingdir/build/node_modules/react-native-safe-area-context/common/cpp/react/renderer/components/safeareacontext/RNCSafeAreaViewShadowNode.cpp:22:12: error: no member named 'unit' in 'facebook::yoga::StyleLength'
+     22 |   if (axis.unit() != Unit::Undefined) {
+        |       ~~~~ ^
+  2 errors generated.
+  [11/45] Building CXX object rnsvg_autolinked_build/CMakeFiles/react_codegen_rnsvg.dir/home/expo/workingdir/build/node_modules/react-native-svg/android/build/generated/source/codegen/jni/react/renderer/components/rnsvg/Props.cpp.o
+  [12/45] Building CXX object rnsvg_autolinked_build/CMakeFiles/react_codegen_rnsvg.dir/home/expo/workingdir/build/node_modules/react-native-svg/android/build/generated/source/codegen/jni/react/renderer/components/rnsvg/ComponentDescriptors.cpp.o
+  ninja: build stopped: subcommand failed.
+  
+  C++ build system [build] failed while executing:
+      /home/expo/Android/Sdk/cmake/3.22.1/bin/ninja \
+        -C \
+        /home/expo/workingdir/build/android/app/.cxx/RelWithDebInfo/116c1wd4/arm64-v8a \
+        appmodules \
+        react_codegen_rnscreens \
+        react_codegen_rnsvg \
+        react_codegen_safeareacontext
+    from /home/expo/workingdir/build/android/app
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+==============================================================================
+BUILD FAILED in 2m 47s
+See the profiling report at: file:///home/expo/workingdir/build/android/build/reports/profile/profile-2026-07-06-21-01-00.html
+A fine-grained performance profile is available: use the --scan option.
+Error: Gradle build failed with unknown error. See logs for the "Run gradlew" phase for more information.

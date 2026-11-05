@@ -1,0 +1,32 @@
+# Pour supprimer une application
+Remove-Item -Recurse -Force SuiviVoiture
+
+# Pour Créer une nouvelle application nommée SuiviVoiture
+npx create-expo-app@latest SuiviVoiture --template blank-typescript
+Important : Lors de la creation, choisissez "For learning with Expo Go (SDK 54)" avec les touches fléchées puis appuyez sur Entrée.
+Cette option est parfaite pour vous car :
+	✅ Compatible avec Expo Go du Play Store — pas besoin de compiler un APK pour tester
+	✅ Stable — pas les problèmes C++ de SDK 57
+	✅ react-native-svg fonctionne correctement
+	✅ Expo Go reconnaît automatiquement cette version
+
+# Pour Vérifier l'encodage
+$bytes = [System.IO.File]::ReadAllBytes("D:\Projet\SuiviVoiture\package.json")
+Write-Host "Premiers octets:" $bytes[0] $bytes[1] $bytes[2]
+Elle doit afficher 123 10 32
+
+# Pour installer les dépendences
+cd D:\Projet\SuiviVoiture
+npm install
+Important : Les noms des paquages a installer et leur version sont specifies dans le fichier package.json situe dans la racine du dossier de l'application
+
+# Pour lancer le serveur Metro
+npx expo start
+
+Important : Installer l'application Expo Go sur le mobile avec la meme version que celle du SDK, soit 54
+
+Lancer Expo Go puis entré l'adresse exp://192.168....:8081. Le laptop et le mobile doivent etre sur la meme borne Wifi:
+Important : Vous pouvez modifier l'affichage au niveau de votre mobile en modifiant le fichier index.ts situe dans la racine du dossier de l'application
+
+
+ 
