@@ -1,5 +1,5 @@
 import { Lang } from "./types";
-const T = {
+const base = {
   fr: {
     HeaderLabel: "Contr\u00f4le des v\u00e9hicules",
     importLabel: "Importer",
@@ -79,4 +79,67 @@ const T = {
     autoLoadFail: "\u0641\u0634\u0644 \u0627\u0644\u062a\u062d\u0645\u064a\u0644 \u0627\u0644\u062a\u0644\u0642\u0627\u0626\u064a. \u064a\u0631\u062c\u0649 \u0627\u0644\u0627\u0633\u062a\u064a\u0631\u0627\u062f \u064a\u062f\u0648\u064a\u0627\u064b.",
   }
 };
-export function useT(lang: Lang) { return T[lang]; }
+
+const extraFr = {
+  searchBtn: "Rechercher",
+  searchPlaceholder: "Ex. : 12345-678-09 ou M-0001",
+  clearLabel: "Effacer la recherche",
+  importA11y: "Importer une liste de véhicules",
+  langA11y: "Changer la langue en arabe",
+  statusLoadedShort: (n: number) => n + (n > 1 ? " véhicules" : " véhicule"),
+  emptyTitle: "Aucune liste chargée",
+  emptyDesc: "Importez le fichier chiffré fourni par l’administration pour commencer les contrôles.",
+  emptyCta: "Importer la liste",
+  idleTitle: "Prêt pour le contrôle",
+  idleDesc: "Saisissez un matricule ou un numéro de macaron.",
+  loadingList: "Chargement de la liste…",
+  blocValue: (b: string) => "Bloc " + b,
+  noPhone: "Numéro indisponible",
+  newSearch: "Nouvelle recherche",
+  showPwd: "Afficher le mot de passe",
+  hidePwd: "Masquer le mot de passe",
+  changeFile: "Changer",
+  pickFile: "Choisir un fichier",
+  fileLabel: "Fichier",
+  skippedRows: (n: number) => n + " ligne(s) ignorée(s)",
+  dismiss: "Fermer",
+  callError: "Impossible de lancer l’appel.",
+  pickError: "Erreur lors de la sélection du fichier.",
+  unknownHelp: "Vérifiez la saisie ou contactez l’administration.",
+  autoLoadedFrom: "Liste restaurée depuis la copie enregistrée.",
+};
+const extraAr: typeof extraFr = {
+  searchBtn: "بحث",
+  searchPlaceholder: "مثال: 12345-678-09 أو M-0001",
+  clearLabel: "مسح البحث",
+  importA11y: "استيراد قائمة المركبات",
+  langA11y: "التغيير إلى الفرنسية",
+  statusLoadedShort: (n: number) => n + " مركبة",
+  emptyTitle: "لا توجد قائمة محملة",
+  emptyDesc: "استورد الملف المشفر الذي تقدمه الإدارة لبدء المراقبة.",
+  emptyCta: "استيراد القائمة",
+  idleTitle: "جاهز للمراقبة",
+  idleDesc: "أدخل رقم التسجيل أو رقم الملصق.",
+  loadingList: "جارٍ تحميل القائمة…",
+  blocValue: (b: string) => "العمارة " + b,
+  noPhone: "الرقم غير متوفر",
+  newSearch: "بحث جديد",
+  showPwd: "إظهار كلمة السر",
+  hidePwd: "إخفاء كلمة السر",
+  changeFile: "تغيير",
+  pickFile: "اختر ملفاً",
+  fileLabel: "الملف",
+  skippedRows: (n: number) => "تم تجاهل " + n + " سطر",
+  dismiss: "إغلاق",
+  callError: "تعذر بدء المكالمة.",
+  pickError: "خطأ أثناء اختيار الملف.",
+  unknownHelp: "تحقق من الإدخال أو اتصل بالإدارة.",
+  autoLoadedFrom: "تمت استعادة القائمة من النسخة المحفوظة.",
+};
+
+const T = {
+  fr: { ...base.fr, ...extraFr },
+  ar: { ...base.ar, ...extraAr },
+};
+export function getStrings(lang: Lang) { return T[lang]; }
+export const useT = getStrings;
